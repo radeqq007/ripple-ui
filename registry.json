@@ -1,0 +1,16 @@
+{
+  "name": "ripple-ui",
+  "homepage": "https://github.cpm/radeqq007/ripple-ui",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:component",
+      "files": [
+        {
+          "path": "button.ripple",
+          "content": ""
+        }
+      ]
+    }
+  ]
+}

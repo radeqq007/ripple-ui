@@ -1,0 +1,24 @@
+{
+  "name": "ripple-ui",
+  "version": "0.0.0",
+  "description": "shadcn/ui inspired components library for Ripple TS",
+  "scripts": {
+    "publish": "npm publish"
+  },
+  "bin": {
+    "ripple-ui": "cli.js"
+  },
+  "keywords": [
+    "ripple",
+    "ui",
+    "components"
+  ],
+  "author": "Radosław Kaczmarczyk",
+  "license": "MIT",
+  "packageManager": "pnpm@10.28.1",
+  "dependencies": {
+    "commander": "^14.0.3",
+    "fs-extra": "^11.3.4",
+    "prompts": "^2.4.2"
+  }
+}
