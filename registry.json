@@ -1,6 +1,12 @@
 {
   "button": {
     "files": ["button.ripple"],
-    "path": "components/button"
+    "path": "components/button",
+    "dependencies": ["utils"]
+  },
+  "utils": {
+    "files": ["utils.ts"],
+    "path": "lib/utils",
+    "target": "src/lib"
   }
 }
