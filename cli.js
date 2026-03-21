@@ -1,32 +1,30 @@
 #!/usr/bin/env node
-import { program } from "commander";
+import { Command } from "commander";
 import fs from "fs/promises";
 import path from "path";
+import registry from "../registry.json";
 
-const registryUrl = "https://raw.githubusercontent.com/radeqq007/ripple-ui/main/registry.json"
+const program = new Command();
 
 program
-  .name("ripple-ui")
-  .description("shadcn/ui inspired components library for Ripple TS")
-  .argument("<component>", "Component to add (e.g. button)")
+  .command("add <component>")
+  .description("Add a Ripple UI component")
   .action(async (component) => {
-    const registry = await fetch(registryUrl).then(r => r.json())
-    const item = registry.items.find(i => i.name === component.toLowerCase())
-    const targetDir = path.join(process.cwd(), "src/components/ui")
-
-    if (!item) {
-      console.error(`Component "${component}" not found.`)
-      process.exit(1)
+    const entry = registry[component];
+    if (!entry) {
+      console.error(`Component "${component}" not found.`);
+      return;
     }
 
-    await fs.mkdir(targetDir, { recursive: true })
+    const targetPath = path.resolve(process.cwd(), "src/components", component);
 
-    for (const file of item.files) {
-      const dest = path.join(targetDir, file.path)
-      await fs.writeFile(dest, file.content)
-      console.log(`Added ${file.path}`)
+    for (const file of entry.files) {
+      const src = path.resolve(__dirname, "..", entry.path, file);
+      const dest = path.resolve(targetPath, file);
+      await fs.copy(src, dest);
     }
-  })
 
-program.parse()
+    console.log(`Component ${component} added to ${targetPath}`);
+  });
 
+program.parse(process.argv);
