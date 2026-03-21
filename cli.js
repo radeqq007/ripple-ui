@@ -98,4 +98,30 @@ program
     console.log(`\nDone.`);
   });
 
+program
+  .command("list")
+  .description("List available components")
+  .action(() => {
+    const names = Object.keys(registry);
+    console.log("Available components:\n");
+    for (const name of names) {
+      console.log(`  ${name}${deps}`);
+    }
+  });
+
+program
+  .command("installed")
+  .description("List installed components")
+  .action(async () => {
+    const config = await readConfig();
+    if (config.installed.length === 0) {
+      console.log("No components installed yet.");
+    } else {
+      console.log("Installed:\n");
+      for (const name of config.installed) {
+        console.log(`  ✔ ${name}`);
+      }
+    }
+  });
+
 program.parse(process.argv);
