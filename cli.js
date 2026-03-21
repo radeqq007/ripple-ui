@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import { readFileSync } from "fs";
 import fs from "fs/promises";
 import path from "path";
+import prompts from "prompts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -122,6 +123,43 @@ program
         console.log(`  ✔ ${name}`);
       }
     }
+  });
+
+program
+  .command("init")
+  .description("Creates components.json")
+  .action(async () => {
+    const answers = await prompts([
+      {
+        type: "text",
+        name: "componentsDir",
+        message: "Where are your components?",
+        initial: "src/components",
+      },
+      {
+        type: "text",
+        name: "utilsDir",
+        message: "Where are your utilities?",
+        initial: "src/lib",
+      },
+      {
+        type: "text",
+        name: "componentsAlias",
+        message: "Components path alias?",
+        initial: "@/components",
+      },
+      {
+        type: "text",
+        name: "utilsAlias",
+        message: "Utils path alias?",
+        initial: "@/lib/utils",
+      },
+    ]);
+
+    await fs.writeFile(
+      "components.json",
+      JSON.stringify(answers, null, 2) + "\n",
+    );
   });
 
 program.parse(process.argv);
