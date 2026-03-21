@@ -15,33 +15,87 @@ const registry = JSON.parse(
   ),
 );
 
+const configPath = path.resolve(process.cwd(), "components.json");
+async function readConfig() {
+  try {
+    const raw = await fs.readFile(configPath, "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return { installed: [] };
+  }
+}
+
+async function writeConfig(config) {
+  await fs.writeFile(configPath, JSON.stringify(config, null, 2) + "\n");
+}
+
+async function installComponent(name, registry, installed = new Set()) {
+  if (installed.has(name)) return;
+  installed.add(name);
+
+  const entry = registry[name];
+  if (!entry) throw new Error(`"${name}" not found in registry`);
+
+  for (const dep of entry.dependencies ?? []) {
+    await installComponent(dep, registry, installed);
+  }
+
+  const targetDir = entry.target ?? `src/components/${name}`;
+  const targetPath = path.resolve(process.cwd(), targetDir);
+  await fs.mkdir(targetPath, { recursive: true });
+
+  await Promise.all(
+    entry.files.map(async (file) => {
+      const src = path.resolve(__dirname, entry.path, file);
+      const dest = path.resolve(targetPath, file);
+      await fs.copyFile(src, dest);
+    }),
+  );
+
+  console.log(`✔ Installed: ${name} → ${targetPath}`);
+}
+
 const program = new Command();
 
 program
   .command("add <component>")
   .description("Add a Ripple UI component")
   .action(async (component) => {
-    const entry = registry[component];
-    if (!entry) {
+    if (!registry[component]) {
       console.error(`Component "${component}" not found.`);
       process.exit(1);
     }
 
-    const targetPath = path.resolve(process.cwd(), "src/components", component);
+    const config = await readConfig();
+    const alreadyInstalled = new Set(config.installed);
 
-    try {
-      await fs.mkdir(targetPath, { recursive: true });
-      await Promise.all(
-        entry.files.map(async (file) => {
-          const src = path.resolve(__dirname, entry.path, file);
-          const dest = path.resolve(targetPath, file);
-          await fs.copyFile(src, dest);
-        }),
-      );
-      console.log(`Component ${component} added to ${targetPath}`);
-    } catch (e) {
-      console.error(`Failed to add "${component}": ${e.message}`);
+    // component + its dependencies
+    const toInstall = new Set();
+
+    function collectDeps(name) {
+      if (alreadyInstalled.has(name)) return;
+      if (toInstall.has(name)) return;
+      toInstall.add(name);
+      for (const dep of registry[name]?.dependencies ?? []) {
+        collectDeps(dep);
+      }
     }
+
+    collectDeps(component);
+
+    if (toInstall.size === 0) {
+      console.log(`"${component}" is already installed.`);
+      return;
+    }
+
+    console.log(`Installing: ${[...toInstall].join(", ")}\n`);
+
+    await installComponent(component, alreadyInstalled);
+
+    config.installed = [...new Set([...config.installed, ...toInstall])];
+    await writeConfig(config);
+
+    console.log(`\nDone.`);
   });
 
 program.parse(process.argv);
