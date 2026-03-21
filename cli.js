@@ -104,9 +104,9 @@ program
   .description("List available components")
   .action(() => {
     const names = Object.keys(registry);
-    console.log("Available components:\n");
+    console.log("Available components:");
     for (const name of names) {
-      console.log(`  ${name}${deps}`);
+      console.log(`  ${name}`);
     }
   });
 
