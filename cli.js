@@ -22,7 +22,7 @@ async function readConfig() {
     const raw = await fs.readFile(configPath, "utf-8");
     return JSON.parse(raw);
   } catch {
-    return { installed: [] };
+    return null;
   }
 }
 
@@ -30,7 +30,25 @@ async function writeConfig(config) {
   await fs.writeFile(configPath, JSON.stringify(config, null, 2) + "\n");
 }
 
-async function installComponent(name, registry, installed = new Set()) {
+function requireConfig(config) {
+  if (!config) {
+    console.error('No components.json found. Run "ripple-ui init" first.');
+    process.exit(1);
+  }
+}
+
+function resolveTargetDir(name, config) {
+  const entry = registry[name];
+
+  // utils
+  if (entry.target) {
+    return config.utilsDir ?? entry.target;
+  }
+
+  return `${config.componentsDir}/${name}`;
+}
+
+async function installEntry(name, config, installed = new Set()) {
   if (installed.has(name)) return;
   installed.add(name);
 
@@ -38,10 +56,10 @@ async function installComponent(name, registry, installed = new Set()) {
   if (!entry) throw new Error(`"${name}" not found in registry`);
 
   for (const dep of entry.dependencies ?? []) {
-    await installComponent(dep, registry, installed);
+    await installEntry(dep, config, installed);
   }
 
-  const targetDir = entry.target ?? `src/components/${name}`;
+  const targetDir = resolveTargetDir(name, config);
   const targetPath = path.resolve(process.cwd(), targetDir);
   await fs.mkdir(targetPath, { recursive: true });
 
@@ -62,12 +80,14 @@ program
   .command("add <component>")
   .description("Add a Ripple UI component")
   .action(async (component) => {
+    const config = await readConfig();
+    requireConfig(config);
+
     if (!registry[component]) {
       console.error(`Component "${component}" not found.`);
       process.exit(1);
     }
 
-    const config = await readConfig();
     const alreadyInstalled = new Set(config.installed);
 
     // component + its dependencies
@@ -91,7 +111,7 @@ program
 
     console.log(`Installing: ${[...toInstall].join(", ")}\n`);
 
-    await installComponent(component, alreadyInstalled);
+    await installEntry(component, config, alreadyInstalled);
 
     config.installed = [...new Set([...config.installed, ...toInstall])];
     await writeConfig(config);
@@ -158,7 +178,7 @@ program
 
     await fs.writeFile(
       "components.json",
-      JSON.stringify(answers, null, 2) + "\n",
+      JSON.stringify({ ...answers, installed: [] }, null, 2) + "\n",
     );
   });
 
