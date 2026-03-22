@@ -149,9 +149,17 @@ program
   .command("init")
   .description("Creates components.json")
   .action(async () => {
-    // TODO: check if tailwindcss is installed
+    const cwd = process.cwd()
 
-    let mainCssFile = await detectCssFile(process.cwd());
+    if (await detectTailwind(cwd)) {
+      console.log("✔  Validating tailwindcss.")
+    } else {
+      console.error("✖  Tailwind CSS not detected. Please install it first: https://tailwindcss.com/docs/installation")
+      process.exit(1)
+    }
+  
+
+    let mainCssFile = await detectCssFile(cwd);
     if (mainCssFile === null) {
       console.log("Could not find the main ");
       mainCssFile = await prompts([
@@ -164,7 +172,7 @@ program
       ]);
     }
 
-    const detectedAlias = await detectImportAlias(process.cwd());
+    const detectedAlias = await detectImportAlias(cwd);
     console.log(`✔  Validating import alias. Found "${detectedAlias}".`);
 
     console.log("✔  Writing componnts.json.");
@@ -186,6 +194,20 @@ program
 
     console.log("Done.");
   });
+
+async function detectTailwind(cwd) {
+  try {
+    const raw = await fs.readFile(path.join(cwd, "package.json"), "utf-8")
+    const pkg = JSON.parse(raw)
+    const deps = {
+      ...pkg.dependencies,
+      ...pkg.devDependencies
+    }
+    return "tailwindcss" in deps
+  } catch (e) {
+    return false
+  }
+}
 
 async function detectCssFile(cwd) {
   const paths = ["src/index.css", "src/main.css", "src/styles.css"];
