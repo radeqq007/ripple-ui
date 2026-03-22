@@ -175,7 +175,7 @@ program
     const detectedAlias = await detectImportAlias(cwd);
     console.log(`✔  Validating import alias. Found "${detectedAlias}".`);
 
-    console.log("✔  Writing componnts.json.");
+    console.log("✔  Writing components.json.");
     await fs.writeFile(
       "components.json",
       JSON.stringify(
