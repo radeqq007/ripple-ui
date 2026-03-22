@@ -6,7 +6,7 @@
   },
   "utils": {
     "files": ["utils.ts"],
-    "path": "lib/utils",
+    "path": "lib/",
     "target": "src/lib"
   }
 }
