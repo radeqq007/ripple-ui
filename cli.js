@@ -149,37 +149,45 @@ program
   .command("init")
   .description("Creates components.json")
   .action(async () => {
-    const answers = await prompts([
-      {
-        type: "text",
-        name: "componentsDir",
-        message: "Where are your components?",
-        initial: "src/components",
-      },
-      {
-        type: "text",
-        name: "utilsDir",
-        message: "Where are your utilities?",
-        initial: "src/lib",
-      },
-      {
-        type: "text",
-        name: "componentsAlias",
-        message: "Components path alias?",
-        initial: "@/components",
-      },
-      {
-        type: "text",
-        name: "utilsAlias",
-        message: "Utils path alias?",
-        initial: "@/lib/utils",
-      },
-    ]);
+    const detectedAlias = await detectImportAlias(process.cwd());
+    console.log(`✔ Validating import alias. Found "${detectedAlias}".`);
 
+    console.log("✔ Writing componnts.json.");
     await fs.writeFile(
       "components.json",
-      JSON.stringify({ ...answers, installed: [] }, null, 2) + "\n",
+      JSON.stringify(
+        {
+          aliases: {
+            components: `${detectedAlias}/components`,
+            utils: `${detectedAlias}/utils`,
+          },
+          installed: [],
+        },
+        null,
+        2,
+      ) + "\n",
     );
+
+    console.log("Done.");
   });
+
+async function detectImportAlias(cwd) {
+  const name = "tsconfig.json";
+
+  try {
+    const raw = await fs.readFile(path.join(cwd, name), "utf-8");
+    const tsconfig = JSON.parse(raw);
+    const paths = tsconfig.compilerOptions?.paths ?? {};
+
+    for (const alias of Object.keys(paths)) {
+      return alias.replace(/\/\*$/, "");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  console.error("No import alias found.");
+  process.exit(1);
+}
 
 program.parse(process.argv);
