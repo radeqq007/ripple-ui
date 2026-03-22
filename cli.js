@@ -149,6 +149,21 @@ program
   .command("init")
   .description("Creates components.json")
   .action(async () => {
+    // TODO: check if tailwindcss is installed
+
+    let mainCssFile = await detectCssFile(process.cwd());
+    if (mainCssFile === null) {
+      console.log("Could not find the main ");
+      mainCssFile = await prompts([
+        {
+          type: "text",
+          name: "mainCssFile",
+          message: "Where is your main css file?",
+          initial: "src/index.css",
+        },
+      ]);
+    }
+
     const detectedAlias = await detectImportAlias(process.cwd());
     console.log(`✔ Validating import alias. Found "${detectedAlias}".`);
 
@@ -161,6 +176,7 @@ program
             components: `${detectedAlias}/components`,
             utils: `${detectedAlias}/utils`,
           },
+          css: mainCssFile,
           installed: [],
         },
         null,
@@ -170,6 +186,21 @@ program
 
     console.log("Done.");
   });
+
+async function detectCssFile(cwd) {
+  const paths = ["src/index.css", "src/main.css", "src/styles.css"];
+
+  for (const relPath of paths) {
+    const fullPath = path.resolve(cwd, relPath);
+    try {
+      await fs.access(fullPath);
+      console.log(`✔ Found main CSS file: ${relPath}`);
+      return relPath;
+    } catch {}
+  }
+
+  return null;
+}
 
 async function detectImportAlias(cwd) {
   const name = "tsconfig.json";
