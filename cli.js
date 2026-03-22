@@ -71,7 +71,7 @@ async function installEntry(name, config, installed = new Set()) {
     }),
   );
 
-  console.log(`✔ Installed: ${name} → ${targetPath}`);
+  console.log(`✔  Installed: ${name} → ${targetPath}`);
 }
 
 const program = new Command();
@@ -165,9 +165,9 @@ program
     }
 
     const detectedAlias = await detectImportAlias(process.cwd());
-    console.log(`✔ Validating import alias. Found "${detectedAlias}".`);
+    console.log(`✔  Validating import alias. Found "${detectedAlias}".`);
 
-    console.log("✔ Writing componnts.json.");
+    console.log("✔  Writing componnts.json.");
     await fs.writeFile(
       "components.json",
       JSON.stringify(
@@ -194,7 +194,7 @@ async function detectCssFile(cwd) {
     const fullPath = path.resolve(cwd, relPath);
     try {
       await fs.access(fullPath);
-      console.log(`✔ Found main CSS file: ${relPath}`);
+      console.log(`✔  Found main CSS file: ${relPath}`);
       return relPath;
     } catch {}
   }
