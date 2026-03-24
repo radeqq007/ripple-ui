@@ -1,21 +1,16 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
 import { fileURLToPath } from 'url';
-import { readFileSync } from 'fs';
 import fs from 'fs/promises';
 import path from 'path';
 import prompts from 'prompts';
 import type { Config, Registry } from './types.js';
+import registryJson from '../registry.json' with { type: 'json' };
+
+const registry = registryJson as Registry;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const registry: Registry = JSON.parse(
-  readFileSync(
-    fileURLToPath(new URL('./registry.json', import.meta.url)),
-    'utf-8',
-  ),
-);
 
 const configPath = path.resolve(process.cwd(), 'components.json');
 async function readConfig(): Promise<Config | undefined> {
