@@ -1,43 +1,42 @@
 #!/usr/bin/env node
-import { Command } from "commander";
-import { fileURLToPath } from "url";
-import { readFileSync } from "fs";
-import fs from "fs/promises";
-import path from "path";
-import prompts from "prompts";
+import { Command } from 'commander';
+import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
+import fs from 'fs/promises';
+import path from 'path';
+import prompts from 'prompts';
+import type { Config, Registry } from './types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const registry = JSON.parse(
+const registry: Registry = JSON.parse(
   readFileSync(
-    fileURLToPath(new URL("./registry.json", import.meta.url)),
-    "utf-8",
+    fileURLToPath(new URL('./registry.json', import.meta.url)),
+    'utf-8',
   ),
 );
 
-const configPath = path.resolve(process.cwd(), "components.json");
-async function readConfig() {
+const configPath = path.resolve(process.cwd(), 'components.json');
+async function readConfig(): Promise<Config | undefined> {
   try {
-    const raw = await fs.readFile(configPath, "utf-8");
+    const raw = await fs.readFile(configPath, 'utf-8');
     return JSON.parse(raw);
-  } catch {
-    return null;
-  }
+  } catch {}
 }
 
-async function writeConfig(config) {
-  await fs.writeFile(configPath, JSON.stringify(config, null, 2) + "\n");
+async function writeConfig(config: Config) {
+  await fs.writeFile(configPath, JSON.stringify(config, null, 2) + '\n');
 }
 
-function requireConfig(config) {
+function requireConfig(config: Config) {
   if (!config) {
     console.error('No components.json found. Run "ripple-ui init" first.');
     process.exit(1);
   }
 }
 
-function resolveTargetDir(name, config) {
+function resolveTargetDir(name: string, config: Config) {
   const entry = registry[name];
 
   // utils
@@ -48,7 +47,11 @@ function resolveTargetDir(name, config) {
   return `${config.componentsDir}/${name}`;
 }
 
-async function installEntry(name, config, installed = new Set()) {
+async function installEntry(
+  name: string,
+  config: Config,
+  installed = new Set(),
+) {
   if (installed.has(name)) return;
   installed.add(name);
 
@@ -64,7 +67,7 @@ async function installEntry(name, config, installed = new Set()) {
   await fs.mkdir(targetPath, { recursive: true });
 
   await Promise.all(
-    entry.files.map(async (file) => {
+    entry.files.map(async file => {
       const src = path.resolve(__dirname, entry.path, file);
       const dest = path.resolve(targetPath, file);
       await fs.copyFile(src, dest);
@@ -77,10 +80,15 @@ async function installEntry(name, config, installed = new Set()) {
 const program = new Command();
 
 program
-  .command("add <component>")
-  .description("Add a Ripple UI component")
-  .action(async (component) => {
-    const config = await readConfig();
+  .command('add <component>')
+  .description('Add a Ripple UI component')
+  .action(async component => {
+    const config: Config | undefined = await readConfig();
+    if (!config) {
+      console.error('Error reading the config.');
+      process.exit(1);
+    }
+
     requireConfig(config);
 
     if (!registry[component]) {
@@ -91,9 +99,9 @@ program
     const alreadyInstalled = new Set(config.installed);
 
     // component + its dependencies
-    const toInstall = new Set();
+    const toInstall: Set<string> = new Set();
 
-    function collectDeps(name) {
+    function collectDeps(name: string) {
       if (alreadyInstalled.has(name)) return;
       if (toInstall.has(name)) return;
       toInstall.add(name);
@@ -109,7 +117,7 @@ program
       return;
     }
 
-    console.log(`Installing: ${[...toInstall].join(", ")}\n`);
+    console.log(`Installing: ${[...toInstall].join(', ')}\n`);
 
     await installEntry(component, config, alreadyInstalled);
 
@@ -120,25 +128,30 @@ program
   });
 
 program
-  .command("list")
-  .description("List available components")
+  .command('list')
+  .description('List available components')
   .action(() => {
     const names = Object.keys(registry);
-    console.log("Available components:");
+    console.log('Available components:');
     for (const name of names) {
       console.log(`  ${name}`);
     }
   });
 
 program
-  .command("installed")
-  .description("List installed components")
+  .command('installed')
+  .description('List installed components')
   .action(async () => {
     const config = await readConfig();
+    if (!config) {
+      console.error('Could not read the components.json file.');
+      process.exit(1);
+    }
+
     if (config.installed.length === 0) {
-      console.log("No components installed yet.");
+      console.log('No components installed yet.');
     } else {
-      console.log("Installed:\n");
+      console.log('Installed:\n');
       for (const name of config.installed) {
         console.log(`  ✔ ${name}`);
       }
@@ -146,38 +159,40 @@ program
   });
 
 program
-  .command("init")
-  .description("Creates components.json")
+  .command('init')
+  .description('Creates components.json')
   .action(async () => {
-    const cwd = process.cwd()
+    const cwd: string = process.cwd();
 
     if (await detectTailwind(cwd)) {
-      console.log("✔  Validating tailwindcss.")
+      console.log('✔  Validating tailwindcss.');
     } else {
-      console.error("✖  Tailwind CSS not detected. Please install it first: https://tailwindcss.com/docs/installation")
-      process.exit(1)
+      console.error(
+        '✖  Tailwind CSS not detected. Please install it first: https://tailwindcss.com/docs/installation',
+      );
+      process.exit(1);
     }
-  
 
     let mainCssFile = await detectCssFile(cwd);
     if (mainCssFile === null) {
-      console.log("Could not find the main ");
-      mainCssFile = await prompts([
+      console.log('Could not find the main ');
+      const response = await prompts([
         {
-          type: "text",
-          name: "mainCssFile",
-          message: "Where is your main css file?",
-          initial: "src/index.css",
+          type: 'text',
+          name: 'mainCssFile',
+          message: 'Where is your main css file?',
+          initial: 'src/index.css',
         },
       ]);
+      mainCssFile = response.mainCssFile;
     }
 
     const detectedAlias = await detectImportAlias(cwd);
     console.log(`✔  Validating import alias. Found "${detectedAlias}".`);
 
-    console.log("✔  Writing components.json.");
+    console.log('✔  Writing components.json.');
     await fs.writeFile(
-      "components.json",
+      'components.json',
       JSON.stringify(
         {
           aliases: {
@@ -189,31 +204,31 @@ program
         },
         null,
         2,
-      ) + "\n",
+      ) + '\n',
     );
 
-    await updateCss(path.join(cwd, mainCssFile))
-    console.log(`✔  Updating ${mainCssFile}`)
+    await updateCss(path.join(cwd, mainCssFile as string));
+    console.log(`✔  Updating ${mainCssFile}`);
 
-    console.log("Done.");
+    console.log('Done.');
   });
 
-async function detectTailwind(cwd) {
+async function detectTailwind(cwd: string) {
   try {
-    const raw = await fs.readFile(path.join(cwd, "package.json"), "utf-8")
-    const pkg = JSON.parse(raw)
+    const raw = await fs.readFile(path.join(cwd, 'package.json'), 'utf-8');
+    const pkg = JSON.parse(raw);
     const deps = {
       ...pkg.dependencies,
-      ...pkg.devDependencies
-    }
-    return "tailwindcss" in deps
+      ...pkg.devDependencies,
+    };
+    return 'tailwindcss' in deps;
   } catch (e) {
-    return false
+    return false;
   }
 }
 
-async function detectCssFile(cwd) {
-  const paths = ["src/index.css", "src/main.css", "src/styles.css"];
+async function detectCssFile(cwd: string) {
+  const paths = ['src/index.css', 'src/main.css', 'src/styles.css'];
 
   for (const relPath of paths) {
     const fullPath = path.resolve(cwd, relPath);
@@ -227,27 +242,27 @@ async function detectCssFile(cwd) {
   return null;
 }
 
-async function detectImportAlias(cwd) {
-  const name = "tsconfig.json";
+async function detectImportAlias(cwd: string) {
+  const name = 'tsconfig.json';
 
   try {
-    const raw = await fs.readFile(path.join(cwd, name), "utf-8");
+    const raw = await fs.readFile(path.join(cwd, name), 'utf-8');
     const tsconfig = JSON.parse(raw);
     const paths = tsconfig.compilerOptions?.paths ?? {};
 
     for (const alias of Object.keys(paths)) {
-      return alias.replace(/\/\*$/, "");
+      return alias.replace(/\/\*$/, '');
     }
   } catch (e) {
     console.error(e);
   }
 
-  console.error("No import alias found.");
+  console.error('No import alias found.');
   process.exit(1);
 }
 
-async function updateCss(cssPath) {
- const content = `/* Ripple UI Theme - Tailwind v4 + OKLCH colors */
+async function updateCss(cssPath: string) {
+  const content = `/* Ripple UI Theme - Tailwind v4 + OKLCH colors */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "@fontsource-variable/geist";
@@ -379,8 +394,8 @@ async function updateCss(cssPath) {
 }
 `;
   const existingContent = await fs.readFile(cssPath, 'utf-8');
-  const newContent = existingContent + '\n' + content
-  await fs.writeFile(cssPath, newContent)
+  const newContent = existingContent + '\n' + content;
+  await fs.writeFile(cssPath, newContent);
 }
 
 program.parse(process.argv);

@@ -4,10 +4,12 @@
   "description": "shadcn/ui inspired components library for Ripple TS",
   "type": "module",
   "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
     "publish": "npm publish"
   },
   "bin": {
-    "ripple-ui": "cli.js"
+    "ripple-ui": "dist/cli.js"
   },
   "keywords": [
     "ripple",
@@ -21,5 +23,11 @@
     "commander": "^14.0.3",
     "fs-extra": "^11.3.4",
     "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/prompts": "^2.4.9",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
   }
 }
