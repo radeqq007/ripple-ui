@@ -1,0 +1,53 @@
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import type { Component } from 'ripple';
+
+const buttonVariants = cva(
+	'group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-49 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+	{
+		variants: {
+			variant: {
+				default: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+				outline: 'border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground',
+				secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
+				ghost: 'hover:bg-accent hover:text-accent-foreground',
+				destructive: 'bg-destructive text-white shadow-xs hover:bg-destructive/90',
+				link: 'text-primary underline-offset-3 hover:underline',
+			},
+			size: {
+				default: 'h-9 px-4 py-2 text-sm rounded-md',
+				xs: 'h-7 px-2 text-xs rounded-sm',
+				sm: 'h-8 px-3 text-sm rounded-md',
+				lg: 'h-10 px-6 text-base rounded-md',
+				icon: 'h-9 w-9 rounded-md',
+				'icon-xs': 'h-7 w-7 rounded-sm',
+				'icon-sm': 'h-8 w-8 rounded-md',
+				'icon-lg': 'h-10 w-10 rounded-md',
+			},
+		},
+		defaultVariants: {
+			variant: 'default',
+			size: 'default',
+		},
+	},
+);
+
+interface Props extends VariantProps<typeof buttonVariants> {
+	children: Component;
+	onClick?: () => void;
+	className?: string;
+	disabled?: boolean;
+}
+
+export component Button(props: Props) {
+	<button
+		data-slot="button"
+		class={cn(buttonVariants({ variant: props.variant, size: props.size, className: props.className }))}
+	    onClick={props.onClick}
+		disabled={props.disabled}
+	>
+		<props.children />
+	</button>
+}
+
+export { buttonVariants };
