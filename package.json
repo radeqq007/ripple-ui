@@ -28,6 +28,12 @@
     "@types/node": "^25.5.0",
     "@types/prompts": "^2.4.9",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.0.0"
+  },
+  "peerDependencies": {
+    "clsx": ">=2",
+    "tailwind-merge": ">=3"
   }
 }
