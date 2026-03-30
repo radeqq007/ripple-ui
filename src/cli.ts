@@ -205,20 +205,22 @@ program
     console.log(`✔  Validating import alias. Found "${detectedAlias}".`);
 
     console.log("✔  Writing components.json.");
+
+    const config: Config = {
+      aliases: {
+        components: `${detectedAlias}/components`,
+        utils: `${detectedAlias}/utils`,
+      },
+      css: mainCssFile!,
+      installed: [],
+      // TODO: maybe detect those instead of hardcoding the directories
+      componentsDir: "src/components",
+      utilsDir: "src/utils",
+    };
+
     await fs.writeFile(
       "components.json",
-      JSON.stringify(
-        {
-          aliases: {
-            components: `${detectedAlias}/components`,
-            utils: `${detectedAlias}/utils`,
-          },
-          css: mainCssFile,
-          installed: [],
-        },
-        null,
-        2,
-      ) + "\n",
+      JSON.stringify(config, null, 2) + "\n",
     );
 
     await updateCss(path.join(cwd, mainCssFile as string));
