@@ -5,9 +5,9 @@ import fs from "fs/promises";
 import path from "path";
 import prompts from "prompts";
 import type { Config, Registry } from "./types.js";
-import registryJson from "../registry.json" with { type: "json" };
 
-const registry = registryJson as Registry;
+const GITHUB_RAW = "https://raw.githubusercontent.com/radeqq007/ripple-ui/main";
+const REGISTRY_URL = `${GITHUB_RAW}/registry.json`;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +18,21 @@ async function readConfig(): Promise<Config | undefined> {
     const raw = await fs.readFile(configPath, "utf-8");
     return JSON.parse(raw);
   } catch {}
+}
+
+async function fetchRegistry(): Promise<Registry> {
+  const res = await fetch(REGISTRY_URL);
+  if (!res.ok) throw new Error(`Failed to fetch registry: ${res.statusText}`);
+  return res.json() as Promise<Registry>;
+}
+
+async function fetchFile(path: string): Promise<string> {
+  const url = `${GITHUB_RAW}/${path}`;
+  const res = await fetch(url);
+  if (!res.ok)
+    throw new Error(`Failed to fetch file ${path}: ${res.statusText}`);
+
+  return res.text();
 }
 
 async function writeConfig(config: Config) {
@@ -31,14 +46,13 @@ function requireConfig(config: Config) {
   }
 }
 
-function resolveTargetDir(name: string, config: Config) {
-  const entry = registry[name];
-
+function resolveTargetDir(
+  name: string,
+  entry: Registry[string],
+  config: Config,
+) {
   // utils
-  if (entry.target) {
-    return config.utilsDir ?? entry.target;
-  }
-
+  if (entry.target) return config.utilsDir ?? entry.target;
   return `${config.componentsDir}/${name}`;
 }
 
@@ -50,6 +64,8 @@ async function installEntry(
   if (installed.has(name)) return;
   installed.add(name);
 
+  const registry = await fetchRegistry();
+
   const entry = registry[name];
   if (!entry) throw new Error(`"${name}" not found in registry`);
 
@@ -57,15 +73,15 @@ async function installEntry(
     await installEntry(dep, config, installed);
   }
 
-  const targetDir = resolveTargetDir(name, config);
+  const targetDir = resolveTargetDir(name, entry, config);
   const targetPath = path.resolve(process.cwd(), targetDir);
   await fs.mkdir(targetPath, { recursive: true });
 
   await Promise.all(
     entry.files.map(async (file) => {
-      const src = path.resolve(__dirname, entry.path, file);
+      const content = await fetchFile(`${entry.path}/${file}`);
       const dest = path.resolve(targetPath, file);
-      await fs.copyFile(src, dest);
+      await fs.writeFile(dest, content);
     }),
   );
 
@@ -85,6 +101,8 @@ program
     }
 
     requireConfig(config);
+
+    const registry = await fetchRegistry();
 
     if (!registry[component]) {
       console.error(`Component "${component}" not found.`);
@@ -125,7 +143,8 @@ program
 program
   .command("list")
   .description("List available components")
-  .action(() => {
+  .action(async () => {
+    const registry = await fetchRegistry();
     const names = Object.keys(registry);
     console.log("Available components:");
     for (const name of names) {
