@@ -95,7 +95,7 @@ async function installEntry(
   }
 
   for (const dep of entry.dependencies ?? []) {
-    await installEntry(dep, config, installed);
+    await installEntry(dep, config, installed, npmDeps);
   }
 
 
@@ -164,7 +164,8 @@ program
 
     console.log(`Installing: ${[...toInstall].join(", ")}\n`);
 
-    await installEntry(component, config, alreadyInstalled);
+    const npmDeps = new Set<string>();
+    await installEntry(component, config, alreadyInstalled, npmDeps);
 
     config.installed = [...new Set([...config.installed, ...toInstall])];
     await writeConfig(config);
