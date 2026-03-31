@@ -305,6 +305,7 @@ async function detectImportAlias(cwd: string): Promise<string> {
 }
 
 async function updateCss(cssPath: string) {
+  // TODO: add more themes instead of just one hardcoded theme
   const content = `/* Ripple UI Theme - Tailwind v4 + OKLCH colors */
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -436,6 +437,8 @@ async function updateCss(cssPath: string) {
   }
 }
 `;
+
+  // TODO: update the css file instead of just appending to it
   const existingContent = await fs.readFile(cssPath, "utf-8");
   const newContent = existingContent + "\n" + content;
   await fs.writeFile(cssPath, newContent);
