@@ -78,7 +78,8 @@ async function installEntry(
 
   await Promise.all(
     entry.files.map(async (file) => {
-      const content = await fetchFile(`${entry.path}/${file}`);
+      let content = await fetchFile(`${entry.path}/${file}`);
+      content = updateImports(content, config)
       const dest = path.resolve(targetPath, file);
       await fs.writeFile(dest, content);
     }),
@@ -438,6 +439,13 @@ async function updateCss(cssPath: string) {
   const existingContent = await fs.readFile(cssPath, "utf-8");
   const newContent = existingContent + "\n" + content;
   await fs.writeFile(cssPath, newContent);
+}
+
+function updateImports(content: string, config: Config): string {
+  return content
+    .replace(/@\/components/g, config.aliases.components)
+    .replace(/@\/lib/g, config.aliases.utils)
+    .replace(/@\/utils/g, config.aliases.utils);
 }
 
 program.parse(process.argv);
