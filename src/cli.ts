@@ -10,7 +10,6 @@ const GITHUB_RAW = "https://raw.githubusercontent.com/radeqq007/ripple-ui/main";
 const REGISTRY_URL = `${GITHUB_RAW}/registry.json`;
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const configPath = path.resolve(process.cwd(), "components.json");
 async function readConfig(): Promise<Config | undefined> {
