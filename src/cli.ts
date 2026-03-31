@@ -5,6 +5,7 @@ import fs from "fs/promises";
 import path from "path";
 import prompts from "prompts";
 import type { Config, Registry } from "./types.js";
+import { execSync } from "child_process";
 
 const GITHUB_RAW = "https://raw.githubusercontent.com/radeqq007/ripple-ui/main";
 const REGISTRY_URL = `${GITHUB_RAW}/registry.json`;
@@ -55,10 +56,31 @@ function resolveTargetDir(
   return `${config.componentsDir}/${name}`;
 }
 
+async function detectPackageManager(cwd: string): Promise<string> {
+  try {
+    const raw = await fs.readFile(path.join(cwd, "package.json"), "utf-8");
+    const pkg = JSON.parse(raw);
+    if (pkg.packageManager) {
+      // e.g. "pnpm@10.32.1" → "pnpm"
+      return pkg.packageManager.split("@")[0];
+    }
+  } catch {}
+  return "npm";
+}
+
+async function installNpmDeps(packages: string[], cwd: string) {
+  if (packages.length === 0) return;
+  const pm = await detectPackageManager(cwd);
+  const cmd = pm === "npm" ? "npm install" : `${pm} add`;
+  console.log(`\nInstalling npm packages with ${pm}: ${packages.join(", ")}`);
+  execSync(`${cmd} ${packages.join(" ")}`, { cwd, stdio: "inherit" });
+}
+
 async function installEntry(
   name: string,
   config: Config,
   installed = new Set(),
+  npmDeps = new Set<string>(),
 ) {
   if (installed.has(name)) return;
   installed.add(name);
@@ -68,9 +90,14 @@ async function installEntry(
   const entry = registry[name];
   if (!entry) throw new Error(`"${name}" not found in registry`);
 
+  for (const pkg of entry.npmDependencies ?? []) {
+    npmDeps.add(pkg);
+  }
+
   for (const dep of entry.dependencies ?? []) {
     await installEntry(dep, config, installed);
   }
+
 
   const targetDir = resolveTargetDir(name, entry, config);
   const targetPath = path.resolve(process.cwd(), targetDir);
@@ -86,6 +113,11 @@ async function installEntry(
   );
 
   console.log(`✔  Installed: ${name} → ${targetPath}`);
+
+  if (npmDeps.size > 0) {
+    await installNpmDeps([...npmDeps], process.cwd());
+    npmDeps.clear();
+  }
 }
 
 const program = new Command();

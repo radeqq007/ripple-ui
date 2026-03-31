@@ -2,6 +2,7 @@ export interface RegistryEntry {
   files: string[];
   path: string;
   dependencies?: string[];
+  npmDependencies?: string[];
   target?: string;
 }
 

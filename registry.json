@@ -2,11 +2,13 @@
   "button": {
     "files": ["button.ripple"],
     "path": "components/button",
-    "dependencies": ["utils"]
+    "dependencies": ["utils"],
+    "npmDependencies": ["class-variance-authority"]
   },
   "utils": {
     "files": ["utils.ts"],
     "path": "lib/",
-    "target": "src/lib"
+    "target": "src/lib",
+    "npmDependencies": ["clsx", "tailwind-merge"]
   }
 }
