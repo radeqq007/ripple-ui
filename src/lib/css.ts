@@ -1,9 +1,20 @@
 import fs from "fs/promises";
 
 export const updateCss = async (cssPath: string) => {
+  const marker = "/* Ripple UI Theme */";
+
+  let existingContent = "";
+  try {
+    existingContent = await fs.readFile(cssPath, "utf-8");
+  } catch {}
+
+  const markerIdx = existingContent.indexOf(marker);
+  const userContent = markerIdx !== -1
+    ? existingContent.slice(0, markerIdx).trimEnd()
+    : existingContent.trimEnd();
+
   // TODO: add more themes instead of just one hardcoded theme
-  const content = `/* Ripple UI Theme - Tailwind v4 + OKLCH colors */
-@import "tailwindcss";
+  const theme = `/* Ripple UI Theme */
 @import "tw-animate-css";
 @import "@fontsource-variable/geist";
 
@@ -131,11 +142,11 @@ export const updateCss = async (cssPath: string) => {
   html {
     @apply font-sans;
   }
-}
-`;
+}`;
 
-  // TODO: update the css file instead of just appending to it
-  const existingContent = await fs.readFile(cssPath, "utf-8");
-  const newContent = existingContent + "\n" + content;
+  const newContent = userContent
+    ? `${userContent}\n\n${theme}\n`
+    : `${theme}\n`;
+
   await fs.writeFile(cssPath, newContent);
 };
