@@ -47,7 +47,7 @@ export const init = async () => {
 
   const { theme } = await prompts([
     {
-      type: "multiselect",
+      type: "select",
       name: "theme",
       message: "Select the theme:", 
       choices: [
