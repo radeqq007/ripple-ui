@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import { themes } from "./themes.js";
 
 export const updateCss = async (cssPath: string) => {
   const marker = "/* Ripple UI Theme */";
@@ -13,8 +14,10 @@ export const updateCss = async (cssPath: string) => {
     ? existingContent.slice(0, markerIdx).trimEnd()
     : existingContent.trimEnd();
 
+  const theme = themes["stone"]!; // TODO: get theme from components.json
+
   // TODO: add more themes instead of just one hardcoded theme
-  const theme = `/* Ripple UI Theme */
+  const content = `/* Ripple UI Theme */
 @import "tw-animate-css";
 @import "@fontsource-variable/geist";
 
@@ -64,72 +67,72 @@ export const updateCss = async (cssPath: string) => {
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --background: ${theme.root.bg};
+    --foreground: ${theme.root.fg};
+    --card: ${theme.root.card.bg};
+    --card-foreground: ${theme.root.card.fg};
+    --popover: ${theme.root.popover.bg};
+    --popover-foreground: ${theme.root.popover.fg};
+    --primary: ${theme.root.primary.bg};
+    --primary-foreground: ${theme.root.primary.fg};
+    --secondary: ${theme.root.secondary.bg};
+    --secondary-foreground: ${theme.root.secondary.fg};
+    --muted: ${theme.root.muted.bg};
+    --muted-foreground: ${theme.root.muted.fg};
+    --accent: ${theme.root.accent.bg};
+    --accent-foreground: ${theme.root.accent.fg};
+    --destructive: ${theme.root.destructive};
+    --border: ${theme.root.border};
+    --input: ${theme.root.input};
+    --ring: ${theme.root.ring};
+    --chart-1: ${theme.root.charts[0]};
+    --chart-2: ${theme.root.charts[1]};
+    --chart-3: ${theme.root.charts[2]};
+    --chart-4: ${theme.root.charts[3]};
+    --chart-5: ${theme.root.charts[4]};
+    --radius: ${theme.root.radius};
+    --sidebar: ${theme.root.sidebar.bg};
+    --sidebar-foreground: ${theme.root.sidebar.fg};
+    --sidebar-primary: ${theme.root.sidebar.primary.bg};
+    --sidebar-primary-foreground: ${theme.root.sidebar.primary.fg};
+    --sidebar-accent: ${theme.root.sidebar.accent.bg};
+    --sidebar-accent-foreground: ${theme.root.sidebar.accent.fg};
+    --sidebar-border: ${theme.root.sidebar.border};
+    --sidebar-ring: ${theme.root.sidebar.ring};
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --background: ${theme.dark.bg};
+    --foreground: ${theme.dark.fg};
+    --card: ${theme.dark.card.bg};
+    --card-foreground: ${theme.dark.card.fg};
+    --popover: ${theme.dark.popover.bg};
+    --popover-foreground: ${theme.dark.popover.fg};
+    --primary: ${theme.dark.primary.bg};
+    --primary-foreground: ${theme.dark.primary.fg};
+    --secondary: ${theme.dark.secondary.bg};
+    --secondary-foreground: ${theme.dark.secondary.fg};
+    --muted: ${theme.dark.muted.bg};
+    --muted-foreground: ${theme.dark.muted.fg};
+    --accent: ${theme.dark.accent.bg};
+    --accent-foreground: ${theme.dark.accent.fg};
+    --destructive: ${theme.dark.destructive};
+    --border: ${theme.dark.border};
+    --input: ${theme.dark.input};
+    --ring: ${theme.dark.ring};
+    --chart-1: ${theme.dark.charts[0]};
+    --chart-2: ${theme.dark.charts[1]};
+    --chart-3: ${theme.dark.charts[2]};
+    --chart-4: ${theme.dark.charts[3]};
+    --chart-5: ${theme.dark.charts[4]};
+    --sidebar: ${theme.dark.sidebar.bg};
+    --sidebar-foreground: ${theme.dark.sidebar.fg};
+    --sidebar-primary: ${theme.dark.sidebar.primary.bg};
+    --sidebar-primary-foreground: ${theme.dark.sidebar.primary.fg};
+    --sidebar-accent: ${theme.dark.sidebar.accent.bg};
+    --sidebar-accent-foreground: ${theme.dark.sidebar.accent.fg};
+    --sidebar-border: ${theme.dark.sidebar.border};
+    --sidebar-ring: ${theme.dark.sidebar.ring};
 }
 
 @layer base {
