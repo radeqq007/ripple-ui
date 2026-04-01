@@ -5,6 +5,11 @@
     "dependencies": ["utils"],
     "npmDependencies": ["class-variance-authority"]
   },
+  "label": {
+    "files": ["label.ripple"],
+    "path": "components/label",
+    "dependencies": ["utils"]
+  },
   "utils": {
     "files": ["utils.ts"],
     "path": "lib/",
