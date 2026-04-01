@@ -45,6 +45,17 @@ export const init = async () => {
   const detectedAlias = await detectImportAlias(cwd);
   console.log(`✔  Validating import alias. Found "${detectedAlias}".`);
 
+  const { theme } = await prompts([
+    {
+      type: "multiselect",
+      name: "theme",
+      message: "Select the theme:", 
+      choices: [
+        { title: "Stone", value: "stone"}
+      ]
+    }
+  ])
+
   console.log("✔  Writing components.json.");
 
   const config: Config = {
@@ -52,6 +63,7 @@ export const init = async () => {
       components: `${detectedAlias}/components`,
       utils: `${detectedAlias}/utils`,
     },
+    theme: theme,
     css: mainCssFile!,
     installed: [],
     // TODO: maybe detect those instead of hardcoding the directories
