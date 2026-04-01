@@ -63,7 +63,6 @@ export const init = async () => {
       components: `${detectedAlias}/components`,
       utils: `${detectedAlias}/utils`,
     },
-    theme: theme,
     css: mainCssFile!,
     installed: [],
     // TODO: maybe detect those instead of hardcoding the directories
