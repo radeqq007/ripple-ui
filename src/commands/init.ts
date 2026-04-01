@@ -13,6 +13,12 @@ import { installNpmDeps } from "../lib/install.js";
 export const init = async () => {
   const cwd: string = process.cwd();
 
+  try {
+    await fs.access(`${cwd}/components.json`);
+    console.log("✔  components.json already exists. Skipping initialization.");
+    process.exit(1);
+  } catch {}
+
   if (await detectTailwind(cwd)) {
     console.log("✔  Validating tailwindcss.");
   } else {
