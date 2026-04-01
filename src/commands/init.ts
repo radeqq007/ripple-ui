@@ -73,7 +73,7 @@ export const init = async () => {
 
   await fs.writeFile("components.json", JSON.stringify(config, null, 2) + "\n");
 
-  await updateCss(path.join(cwd, mainCssFile as string));
+  await updateCss(path.join(cwd, mainCssFile as string), theme);
   console.log(`✔  Updating ${mainCssFile}`);
 
   console.log("\tInstalling dependencies...")

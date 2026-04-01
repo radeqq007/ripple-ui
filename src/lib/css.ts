@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import { themes } from "./themes.js";
 
-export const updateCss = async (cssPath: string) => {
+export const updateCss = async (cssPath: string, theme: string) => {
   const marker = "/* Ripple UI Theme */";
 
   let existingContent = "";
@@ -14,7 +14,7 @@ export const updateCss = async (cssPath: string) => {
     ? existingContent.slice(0, markerIdx).trimEnd()
     : existingContent.trimEnd();
 
-  const theme = themes["stone"]!; // TODO: get theme from components.json
+  const t = themes[theme]!; // TODO: get theme from components.json
 
   // TODO: add more themes instead of just one hardcoded theme
   const content = `/* Ripple UI Theme */
@@ -67,72 +67,72 @@ export const updateCss = async (cssPath: string) => {
 }
 
 :root {
-    --background: ${theme.root.bg};
-    --foreground: ${theme.root.fg};
-    --card: ${theme.root.card.bg};
-    --card-foreground: ${theme.root.card.fg};
-    --popover: ${theme.root.popover.bg};
-    --popover-foreground: ${theme.root.popover.fg};
-    --primary: ${theme.root.primary.bg};
-    --primary-foreground: ${theme.root.primary.fg};
-    --secondary: ${theme.root.secondary.bg};
-    --secondary-foreground: ${theme.root.secondary.fg};
-    --muted: ${theme.root.muted.bg};
-    --muted-foreground: ${theme.root.muted.fg};
-    --accent: ${theme.root.accent.bg};
-    --accent-foreground: ${theme.root.accent.fg};
-    --destructive: ${theme.root.destructive};
-    --border: ${theme.root.border};
-    --input: ${theme.root.input};
-    --ring: ${theme.root.ring};
-    --chart-1: ${theme.root.charts[0]};
-    --chart-2: ${theme.root.charts[1]};
-    --chart-3: ${theme.root.charts[2]};
-    --chart-4: ${theme.root.charts[3]};
-    --chart-5: ${theme.root.charts[4]};
-    --radius: ${theme.radius};
-    --sidebar: ${theme.root.sidebar.bg};
-    --sidebar-foreground: ${theme.root.sidebar.fg};
-    --sidebar-primary: ${theme.root.sidebar.primary.bg};
-    --sidebar-primary-foreground: ${theme.root.sidebar.primary.fg};
-    --sidebar-accent: ${theme.root.sidebar.accent.bg};
-    --sidebar-accent-foreground: ${theme.root.sidebar.accent.fg};
-    --sidebar-border: ${theme.root.sidebar.border};
-    --sidebar-ring: ${theme.root.sidebar.ring};
+    --background: ${t.root.bg};
+    --foreground: ${t.root.fg};
+    --card: ${t.root.card.bg};
+    --card-foreground: ${t.root.card.fg};
+    --popover: ${t.root.popover.bg};
+    --popover-foreground: ${t.root.popover.fg};
+    --primary: ${t.root.primary.bg};
+    --primary-foreground: ${t.root.primary.fg};
+    --secondary: ${t.root.secondary.bg};
+    --secondary-foreground: ${t.root.secondary.fg};
+    --muted: ${t.root.muted.bg};
+    --muted-foreground: ${t.root.muted.fg};
+    --accent: ${t.root.accent.bg};
+    --accent-foreground: ${t.root.accent.fg};
+    --destructive: ${t.root.destructive};
+    --border: ${t.root.border};
+    --input: ${t.root.input};
+    --ring: ${t.root.ring};
+    --chart-1: ${t.root.charts[0]};
+    --chart-2: ${t.root.charts[1]};
+    --chart-3: ${t.root.charts[2]};
+    --chart-4: ${t.root.charts[3]};
+    --chart-5: ${t.root.charts[4]};
+    --radius: ${t.radius};
+    --sidebar: ${t.root.sidebar.bg};
+    --sidebar-foreground: ${t.root.sidebar.fg};
+    --sidebar-primary: ${t.root.sidebar.primary.bg};
+    --sidebar-primary-foreground: ${t.root.sidebar.primary.fg};
+    --sidebar-accent: ${t.root.sidebar.accent.bg};
+    --sidebar-accent-foreground: ${t.root.sidebar.accent.fg};
+    --sidebar-border: ${t.root.sidebar.border};
+    --sidebar-ring: ${t.root.sidebar.ring};
 }
 
 .dark {
-    --background: ${theme.dark.bg};
-    --foreground: ${theme.dark.fg};
-    --card: ${theme.dark.card.bg};
-    --card-foreground: ${theme.dark.card.fg};
-    --popover: ${theme.dark.popover.bg};
-    --popover-foreground: ${theme.dark.popover.fg};
-    --primary: ${theme.dark.primary.bg};
-    --primary-foreground: ${theme.dark.primary.fg};
-    --secondary: ${theme.dark.secondary.bg};
-    --secondary-foreground: ${theme.dark.secondary.fg};
-    --muted: ${theme.dark.muted.bg};
-    --muted-foreground: ${theme.dark.muted.fg};
-    --accent: ${theme.dark.accent.bg};
-    --accent-foreground: ${theme.dark.accent.fg};
-    --destructive: ${theme.dark.destructive};
-    --border: ${theme.dark.border};
-    --input: ${theme.dark.input};
-    --ring: ${theme.dark.ring};
-    --chart-1: ${theme.dark.charts[0]};
-    --chart-2: ${theme.dark.charts[1]};
-    --chart-3: ${theme.dark.charts[2]};
-    --chart-4: ${theme.dark.charts[3]};
-    --chart-5: ${theme.dark.charts[4]};
-    --sidebar: ${theme.dark.sidebar.bg};
-    --sidebar-foreground: ${theme.dark.sidebar.fg};
-    --sidebar-primary: ${theme.dark.sidebar.primary.bg};
-    --sidebar-primary-foreground: ${theme.dark.sidebar.primary.fg};
-    --sidebar-accent: ${theme.dark.sidebar.accent.bg};
-    --sidebar-accent-foreground: ${theme.dark.sidebar.accent.fg};
-    --sidebar-border: ${theme.dark.sidebar.border};
-    --sidebar-ring: ${theme.dark.sidebar.ring};
+    --background: ${t.dark.bg};
+    --foreground: ${t.dark.fg};
+    --card: ${t.dark.card.bg};
+    --card-foreground: ${t.dark.card.fg};
+    --popover: ${t.dark.popover.bg};
+    --popover-foreground: ${t.dark.popover.fg};
+    --primary: ${t.dark.primary.bg};
+    --primary-foreground: ${t.dark.primary.fg};
+    --secondary: ${t.dark.secondary.bg};
+    --secondary-foreground: ${t.dark.secondary.fg};
+    --muted: ${t.dark.muted.bg};
+    --muted-foreground: ${t.dark.muted.fg};
+    --accent: ${t.dark.accent.bg};
+    --accent-foreground: ${t.dark.accent.fg};
+    --destructive: ${t.dark.destructive};
+    --border: ${t.dark.border};
+    --input: ${t.dark.input};
+    --ring: ${t.dark.ring};
+    --chart-1: ${t.dark.charts[0]};
+    --chart-2: ${t.dark.charts[1]};
+    --chart-3: ${t.dark.charts[2]};
+    --chart-4: ${t.dark.charts[3]};
+    --chart-5: ${t.dark.charts[4]};
+    --sidebar: ${t.dark.sidebar.bg};
+    --sidebar-foreground: ${t.dark.sidebar.fg};
+    --sidebar-primary: ${t.dark.sidebar.primary.bg};
+    --sidebar-primary-foreground: ${t.dark.sidebar.primary.fg};
+    --sidebar-accent: ${t.dark.sidebar.accent.bg};
+    --sidebar-accent-foreground: ${t.dark.sidebar.accent.fg};
+    --sidebar-border: ${t.dark.sidebar.border};
+    --sidebar-ring: ${t.dark.sidebar.ring};
 }
 
 @layer base {
