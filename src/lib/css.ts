@@ -148,8 +148,8 @@ export const updateCss = async (cssPath: string, theme: string) => {
 }`;
 
   const newContent = userContent
-    ? `${userContent}\n\n${theme}\n`
-    : `${theme}\n`;
+    ? `${userContent}\n\n${content}\n`
+    : `${content}\n`;
 
   await fs.writeFile(cssPath, newContent);
 };
