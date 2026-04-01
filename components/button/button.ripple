@@ -33,7 +33,7 @@ const buttonVariants = cva(
 );
 
 interface Props extends VariantProps<typeof buttonVariants> {
-	children: Component;
+	children: Component[];
 	onClick?: () => void;
 	className?: string;
 	disabled?: boolean;
