@@ -90,7 +90,7 @@ export const updateCss = async (cssPath: string) => {
     --chart-3: ${theme.root.charts[2]};
     --chart-4: ${theme.root.charts[3]};
     --chart-5: ${theme.root.charts[4]};
-    --radius: ${theme.root.radius};
+    --radius: ${theme.radius};
     --sidebar: ${theme.root.sidebar.bg};
     --sidebar-foreground: ${theme.root.sidebar.fg};
     --sidebar-primary: ${theme.root.sidebar.primary.bg};

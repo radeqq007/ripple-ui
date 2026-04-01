@@ -17,7 +17,6 @@ type Variables = {
     input: string;
     ring: string;
     charts: [string, string, string, string, string];
-    radius: string;
     sidebar: {
         bg: string;
         fg: string;
@@ -29,12 +28,14 @@ type Variables = {
 }
 
 type Theme = {
+    radius: string;
     root: Variables;
     dark: Variables;
 }
 
 export const themes: { [name: string]: Theme } = {
     stone: {
+        radius: "0.625rem",
         root: {
             bg: "oklch(1 0 0)",
             fg: "oklch(0.145 0 0)",
@@ -73,7 +74,6 @@ export const themes: { [name: string]: Theme } = {
                 "oklch(0.371 0 0)",
                 "oklch(0.269 0 0)",
             ],
-            radius: "0.625rem",
             sidebar: {
                 bg: "oklch(0.985 0 0)",
                 fg: "oklch(0.145 0 0)",
@@ -127,7 +127,6 @@ export const themes: { [name: string]: Theme } = {
                 "oklch(0.371 0 0)",
                 "oklch(0.269 0 0)",
             ],
-            radius: "0.625rem", // This should be in like shared or something, it's not used there
             sidebar: {
                 bg: "oklch(0.205 0 0)",
                 fg: "oklch(0.985 0 0)",
