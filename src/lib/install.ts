@@ -15,7 +15,7 @@ export const resolveTargetDir = (
   return `${config.componentsDir}/${name}`;
 };
 
-async function installNpmDeps(packages: string[], cwd: string) {
+export async function installNpmDeps(packages: string[], cwd: string) {
   if (packages.length === 0) return;
   const pm = await detectPackageManager(cwd);
   const cmd = pm === "npm" ? "npm install" : `${pm} add`;

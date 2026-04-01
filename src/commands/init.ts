@@ -8,6 +8,7 @@ import {
 } from "../lib/detect.js";
 import { updateCss } from "../lib/css.js";
 import type { Config } from "../types.js";
+import { installNpmDeps } from "../lib/install.js";
 
 export const init = async () => {
   const cwd: string = process.cwd();
@@ -56,6 +57,9 @@ export const init = async () => {
 
   await updateCss(path.join(cwd, mainCssFile as string));
   console.log(`✔  Updating ${mainCssFile}`);
+
+  console.log("\tInstalling dependencies...")
+  await installNpmDeps(["@fontsource-variable/geist", "tw-animate-css"], cwd)
 
   console.log("Done.");
 };
