@@ -34,26 +34,23 @@ const buttonVariants = cva(
 
 interface Props extends VariantProps<typeof buttonVariants> {
 	children: Component[];
-	onClick?: () => void;
-	className?: string;
-	disabled?: boolean;
 	variant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'destructive' | 'link';
 	size?: 'default' | 'xs' | 'sm' | 'lg' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg';
+	[key: string]: any;
 }
 
-export component Button(props: Props) {
+export component Button({ children, class: className, variant, size, ...rest}: Props) {
 	<button
 		data-slot="button"
 		class={cn(
 			buttonVariants(
-				{ variant: props.variant, size: props.size },
+				{ variant, size },
 			),
-			props.className
+			className
 		)}
-		onClick={props.onClick}
-		disabled={props.disabled}
+	  {...rest}
 	>
-		<props.children />
+		<children />
 	</button>
 }
 
