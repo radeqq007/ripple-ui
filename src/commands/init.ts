@@ -8,6 +8,7 @@ import {
   detectTailwind,
 } from '../lib/detect.js';
 import { installNpmDeps } from '../lib/install.js';
+import { accentThemes, bases } from '../lib/themes.js';
 import type { Config } from '../types.js';
 
 export const init = async () => {
@@ -30,12 +31,12 @@ export const init = async () => {
 
   let mainCssFile = await detectCssFile(cwd);
   if (mainCssFile === null) {
-    console.log('Could not find the main ');
+    console.log('Could not find the main CSS file.');
     const response = await prompts([
       {
         type: 'text',
         name: 'mainCssFile',
-        message: 'Where is your main css file?',
+        message: 'Where is your main CSS file?',
         initial: 'src/index.css',
       },
     ]);
@@ -45,15 +46,30 @@ export const init = async () => {
   const detectedAlias = await detectImportAlias(cwd);
   console.log(`✔  Validating import alias. Found "${detectedAlias}".`);
 
-  const { theme } = await prompts([
+  const baseChoices = Object.keys(bases).map(name => ({
+    title: name.charAt(0).toUpperCase() + name.slice(1),
+    value: name,
+  }));
+
+  const accentChoices = Object.keys(accentThemes).map(name => ({
+    title: name.charAt(0).toUpperCase() + name.slice(1),
+    value: name,
+  }));
+
+  const { base, accent } = await prompts([
     {
       type: 'select',
-      name: 'theme',
-      message: 'Select the theme:',
-      choices: [
-        { title: 'Stone', value: 'stone' },
-        { title: 'Midnight', value: 'midnight' },
-      ],
+      name: 'base',
+      message:
+        'Select a base color (neutral scale for backgrounds, borders, muted tones):',
+      choices: baseChoices,
+    },
+    {
+      type: 'select',
+      name: 'accent',
+      message:
+        'Select an accent theme (primary/brand color and border radius):',
+      choices: accentChoices,
     },
   ]);
 
@@ -73,7 +89,7 @@ export const init = async () => {
 
   await fs.writeFile('components.json', JSON.stringify(config, null, 2) + '\n');
 
-  await updateCss(path.join(cwd, mainCssFile as string), theme);
+  await updateCss(path.join(cwd, mainCssFile as string), base, accent);
   console.log(`✔  Updating ${mainCssFile}`);
 
   console.log('\tInstalling dependencies...');
