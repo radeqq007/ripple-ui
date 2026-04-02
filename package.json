@@ -25,12 +25,13 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.10",
     "@types/node": "^25.5.0",
     "@types/prompts": "^2.4.9",
-    "tsx": "^4.21.0",
-    "typescript": "^6.0.2",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^3.0.0"
+    "tailwind-merge": "^3.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
   },
   "peerDependencies": {
     "clsx": ">=2",
