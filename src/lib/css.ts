@@ -2,22 +2,23 @@ import fs from "fs/promises";
 import { themes } from "./themes.js";
 
 export const updateCss = async (cssPath: string, theme: string) => {
-  const marker = "/* Ripple UI Theme */";
+	const marker = "/* Ripple UI Theme */";
 
-  let existingContent = "";
-  try {
-    existingContent = await fs.readFile(cssPath, "utf-8");
-  } catch {}
+	let existingContent = "";
+	try {
+		existingContent = await fs.readFile(cssPath, "utf-8");
+	} catch {}
 
-  const markerIdx = existingContent.indexOf(marker);
-  const userContent = markerIdx !== -1
-    ? existingContent.slice(0, markerIdx).trimEnd()
-    : existingContent.trimEnd();
+	const markerIdx = existingContent.indexOf(marker);
+	const userContent =
+		markerIdx !== -1
+			? existingContent.slice(0, markerIdx).trimEnd()
+			: existingContent.trimEnd();
 
-  const t = themes[theme]!; // TODO: get theme from components.json
+	const t = themes[theme]!; // TODO: get theme from components.json
 
-  // TODO: add more themes instead of just one hardcoded theme
-  const content = `/* Ripple UI Theme */
+	// TODO: add more themes instead of just one hardcoded theme
+	const content = `/* Ripple UI Theme */
 @import "tw-animate-css";
 @import "@fontsource-variable/geist";
 
@@ -147,9 +148,9 @@ export const updateCss = async (cssPath: string, theme: string) => {
   }
 }`;
 
-  const newContent = userContent
-    ? `${userContent}\n\n${content}\n`
-    : `${content}\n`;
+	const newContent = userContent
+		? `${userContent}\n\n${content}\n`
+		: `${content}\n`;
 
-  await fs.writeFile(cssPath, newContent);
+	await fs.writeFile(cssPath, newContent);
 };

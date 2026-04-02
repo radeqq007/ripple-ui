@@ -1,24 +1,24 @@
 {
-  "button": {
-    "files": ["Button.ripple"],
-    "path": "components/button",
-    "dependencies": ["utils"],
-    "npmDependencies": ["class-variance-authority"]
-  },
-  "label": {
-    "files": ["Label.ripple"],
-    "path": "components/label",
-    "dependencies": ["utils"]
-  },
-  "input": {
-    "files": ["Input.ripple"],
-    "path": "components/input",
-    "dependencies": ["utils"]
-  },
-  "utils": {
-    "files": ["utils.ts"],
-    "path": "lib/",
-    "target": "src/lib",
-    "npmDependencies": ["clsx", "tailwind-merge"]
-  }
+	"button": {
+		"files": ["Button.ripple"],
+		"path": "components/button",
+		"dependencies": ["utils"],
+		"npmDependencies": ["class-variance-authority"]
+	},
+	"label": {
+		"files": ["Label.ripple"],
+		"path": "components/label",
+		"dependencies": ["utils"]
+	},
+	"input": {
+		"files": ["Input.ripple"],
+		"path": "components/input",
+		"dependencies": ["utils"]
+	},
+	"utils": {
+		"files": ["utils.ts"],
+		"path": "lib/",
+		"target": "src/lib",
+		"npmDependencies": ["clsx", "tailwind-merge"]
+	}
 }
