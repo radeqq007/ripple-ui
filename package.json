@@ -6,6 +6,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/cli.ts",
+    "lint": "biome check .",
+    "format": "biome format . --write",
+    "check": "biome check . --all",
     "publish": "npm publish"
   },
   "bin": {
