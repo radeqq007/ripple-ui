@@ -6,14 +6,14 @@ interface Props {
 	[key: string]: any;
 }
 
-export component Label({ children, class: className, ...rest }: Props) {
+export component Label({ children, class: className, ...props }: Props) {
   <label
     data-slot="label"
     class={cn(
         "cn-label flex items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed",
         className
     )}
-    {...rest}
+    {...props}
   >
 		<children />
   </label>
