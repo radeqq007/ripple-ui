@@ -12,6 +12,9 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
+    "paths": {
+      "@/*": ["."]
+    }
   },
-  "include": ["src"],
+  "include": ["src"]
 }
