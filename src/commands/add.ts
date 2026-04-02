@@ -1,6 +1,6 @@
 import { readConfig, requireConfig, writeConfig } from "../lib/config.js";
-import { fetchRegistry } from "../lib/registry.js";
 import { installEntry } from "../lib/install.js";
+import { fetchRegistry } from "../lib/registry.js";
 import type { Config } from "../types.js";
 
 export const add = async (component: string) => {

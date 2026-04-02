@@ -1,5 +1,5 @@
-import path from "path";
 import fs from "fs/promises";
+import path from "path";
 import type { Config } from "../types.js";
 
 const configPath = path.resolve(process.cwd(), "components.json");

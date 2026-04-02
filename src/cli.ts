@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { init } from "./commands/init.js";
 import { add } from "./commands/add.js";
-import { list } from "./commands/list.js";
+import { init } from "./commands/init.js";
 import { installed } from "./commands/installed.js";
+import { list } from "./commands/list.js";
 
 const program = new Command();
 

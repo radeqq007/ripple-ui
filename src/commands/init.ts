@@ -1,14 +1,14 @@
-import prompts from "prompts";
 import fs from "fs/promises";
 import path from "path";
+import prompts from "prompts";
+import { updateCss } from "../lib/css.js";
 import {
-	detectTailwind,
 	detectCssFile,
 	detectImportAlias,
+	detectTailwind,
 } from "../lib/detect.js";
-import { updateCss } from "../lib/css.js";
-import type { Config } from "../types.js";
 import { installNpmDeps } from "../lib/install.js";
+import type { Config } from "../types.js";
 
 export const init = async () => {
 	const cwd: string = process.cwd();

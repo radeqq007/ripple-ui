@@ -1,9 +1,9 @@
-import path from "path";
-import fs from "fs/promises";
 import { execSync } from "child_process";
-import { fetchRegistry, fetchFile } from "./registry.js";
+import fs from "fs/promises";
+import path from "path";
+import type { Config, Registry } from "../types.js";
 import { detectPackageManager } from "./detect.js";
-import type { Registry, Config } from "../types.js";
+import { fetchFile, fetchRegistry } from "./registry.js";
 
 export const resolveTargetDir = (
 	name: string,
