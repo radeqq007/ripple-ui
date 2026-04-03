@@ -12,7 +12,7 @@ npx rippleui-cli init
 This will:
 
 - Detect your tailwind setup and import alias defined in the vite configuration
-- Ask you to chose a base color and an accent theme
+- Ask you to choose a base color and an accent theme
 - Write a `components.json` config file
 - Inject CSS variables and theme tokens into your main CSS file
 
@@ -36,7 +36,7 @@ npx rippleui-cli list
 npx rippleui-cli installed
 ```
 
-## Aviable components
+## Available components
 
 - button
 - checkbox
@@ -60,7 +60,7 @@ npx rippleui-cli installed
 
 ## components.json
 
-Generated during initalization:
+Generated during initialization:
 ```json
 {
   "aliases": {
