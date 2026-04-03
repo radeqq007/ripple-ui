@@ -15,6 +15,12 @@
 		"path": "components/input",
 		"dependencies": ["utils"]
 	},
+	"checkbox": {
+		"files": ["Checkbox.ripple"],
+		"path":"components/checkbox",
+		"dependencies": ["utils"],
+		"npmDependencies": ["lucide-ripple", "ark-ripple"]
+	},
 	"utils": {
 		"files": ["utils.ts"],
 		"path": "lib/",

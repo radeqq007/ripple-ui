@@ -1,0 +1,32 @@
+import { Checkbox as CheckboxPrimitive } from 'ark-ripple/checkbox';
+import { Check } from 'lucide-ripple';
+import { cn } from "@/lib/utils";
+
+
+interface Props {
+	[key: string]: any;
+}
+
+export component Checkbox({ class: className, ...props }: Props ) {
+  <CheckboxPrimitive.Root
+    {...props}
+  >
+    <CheckboxPrimitive.Control
+      class={cn(
+        "peer h-5 w-5 shrink-0 rounded-sm border border-neutral-200 bg-white shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[invalid]:border-red-500 dark:border-neutral-800 dark:bg-neutral-950 dark:focus-visible:ring-neutral-300",
+        "data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=checked]:text-primary-foreground",
+        "dark:data-[state=checked]:bg-primary dark:data-[state=checked]:border-primary dark:data-[state=checked]:text-primary-foreground",
+        className
+      )} 
+    >
+      <CheckboxPrimitive.Indicator
+        class={cn(
+          "flex items-center justify-center text-current"
+        )}
+      >
+        <Check class="h-4 w-4" />
+      </CheckboxPrimitive.Indicator>
+    </CheckboxPrimitive.Control>
+    <CheckboxPrimitive.HiddenInput />
+  </CheckboxPrimitive.Root>
+}
