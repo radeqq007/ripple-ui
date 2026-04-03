@@ -1,0 +1,13 @@
+src/
+lib/
+components/
+
+tsconfig.json
+biome.json
+.github/
+*.md
+!README.md
+
+node_modules/
+*.log
+.DS_Store
