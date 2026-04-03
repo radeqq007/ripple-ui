@@ -1,6 +1,6 @@
 {
 	"name": "rippleui-cli",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "shadcn/ui inspired components library for Ripple TS",
 	"type": "module",
 	"scripts": {
@@ -24,13 +24,13 @@
 	"author": "Radosław Kaczmarczyk",
 	"license": "MIT",
 	"repository": {
-    "type": "git",
-    "url": "https://github.com/radeqq007/ripple-ui.git"
-  },
-  "homepage": "https://github.com/radeqq007/ripple-ui#readme",
-  "bugs": {
-    "url": "https://github.com/radeqq007/ripple-ui/issues"
-  },
+		"type": "git",
+		"url": "https://github.com/radeqq007/ripple-ui.git"
+	},
+	"homepage": "https://github.com/radeqq007/ripple-ui#readme",
+	"bugs": {
+		"url": "https://github.com/radeqq007/ripple-ui/issues"
+	},
 	"engines": {
 		"node": ">=18"
 	},
