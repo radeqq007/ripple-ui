@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsc",
-    "watch": "tsc --watch",
+		"watch": "tsc --watch",
 		"lint": "biome check .",
 		"format": "biome format . --write",
 		"check": "biome check . --all",
@@ -31,7 +31,9 @@
 		"@biomejs/biome": "2.4.10",
 		"@types/node": "^25.5.0",
 		"@types/prompts": "^2.4.9",
+		"ark-ripple": "^0.0.4",
 		"clsx": "^2.1.1",
+		"lucide-ripple": "^0.0.7",
 		"tailwind-merge": "^3.0.0",
 		"tsx": "^4.21.0",
 		"typescript": "^6.0.2"
