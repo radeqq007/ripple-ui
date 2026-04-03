@@ -6,7 +6,7 @@ A shadcn/ui inspired component library for Ripple TS.
 ### 1. Initialize
 
 ```sh
-npx ripple-ui init
+npx rippleui-cli init
 ```
 
 This will:
@@ -19,7 +19,7 @@ This will:
 ### 2. Add components
 
 ```sh
-npx ripple-ui add <component name>
+npx rippleui-cli add <component name>
 ```
 
 Components and their dependencies are copied into your src/components/ directory.
@@ -27,13 +27,13 @@ Components and their dependencies are copied into your src/components/ directory
 ### 3. Browse available components
 
 ```sh
-npx ripple-ui list
+npx rippleui-cli list
 ```
 
 ### 4. See what's installed
 
 ```sh
-npx ripple-ui installed
+npx rippleui-cli installed
 ```
 
 ## Aviable components

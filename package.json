@@ -1,5 +1,5 @@
 {
-	"name": "ripple-ui",
+	"name": "rippleui-cli",
 	"version": "0.1.0",
 	"description": "shadcn/ui inspired components library for Ripple TS",
 	"type": "module",
@@ -12,7 +12,7 @@
 		"prepublishOnly": "npm run build"
 	},
 	"bin": {
-		"ripple-ui": "dist/cli.js"
+		"rippleui-cli": "dist/cli.js"
 	},
 	"keywords": [
 		"ripple",
