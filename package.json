@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsc",
+    "watch": "tsc --watch",
 		"lint": "biome check .",
 		"format": "biome format . --write",
 		"check": "biome check . --all",
