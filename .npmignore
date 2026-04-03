@@ -1,6 +1,6 @@
 src/
-lib/
-components/
+/lib/
+/components/
 
 tsconfig.json
 biome.json
