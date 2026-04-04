@@ -21,6 +21,12 @@
 		"dependencies": ["utils"],
 		"npmDependencies": ["lucide-ripple", "ark-ripple"]
 	},
+	"select": {
+		"files": "Select.ripple",
+		"path": "components/select",
+		"dependencies": ["utils"],
+		"npmDependencies": ["lucide-ripple", "ark-ripple"]
+	},
 	"utils": {
 		"files": ["utils.ts"],
 		"path": "lib/",

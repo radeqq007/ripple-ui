@@ -1,0 +1,95 @@
+import { Select as SelectPrimitive, createListCollection } from 'ark-ripple/Select';
+import { Portal } from 'ark-ripple/portal';
+import { ChevronDown, Check } from 'lucide-ripple';
+import { cn } from '@/lib/utils';
+
+interface SelectItem {
+	label: string;
+	value: any;
+	disabled?: boolean;
+}
+
+interface Props {
+	items: SelectItem[];
+	label?: string;
+	placeholder?: string;
+	[key: string]: any;
+}
+
+export component Select({
+	class: className,
+	items,
+	label,
+	placeholder = 'Select an option',
+	...props
+}: Props) {
+	const collection = createListCollection({ items });
+
+	<SelectPrimitive.Root
+		positioning={{ sameWidth: true }}
+		data-slot="select"
+		{collection}
+		{...props}
+	>
+		if (label) {
+			<SelectPrimitive.Label>{label}</SelectPrimitive.Label>
+		}
+		<SelectPrimitive.Control>
+			<SelectPrimitive.Trigger
+				data-slot="select-trigger"
+				class={cn(
+					'flex gap-2 h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-input/50 dark:bg-input/30 px-3 py-2 text-sm shadow-xs outline-none',
+					'[&_svg]:pointer-events-none [&_svg]:shrink-0',
+					'data-[placeholder-shown]:text-muted-foreground',
+					'focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:border-ring',
+					'disabled:cursor-not-allowed disabled:opacity-50',
+					'data-[invalid]:border-destructive data-[invalid]:ring-destructive/40',
+					className,
+				)}
+			>
+				<SelectPrimitive.ValueText {placeholder} />
+				<SelectPrimitive.Indicator class="shrink-0 opacity-50">
+					<ChevronDown class="h-4 w-4" />
+				</SelectPrimitive.Indicator>
+			</SelectPrimitive.Trigger>
+		</SelectPrimitive.Control>
+
+		<Portal>
+			<SelectPrimitive.Positioner>
+				<SelectPrimitive.Content
+					data-slot="select-content"
+					class={cn(
+						'relative z-50 min-w-[8rem] w-full overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md',
+						'data-[state=open]:animate-in data-[state=closed]:animate-out',
+						'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+						'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+					)}
+				>
+					<SelectPrimitive.ItemGroup class="p-2 w-full flex flex-col gap-2">
+						for (const item of collection.items; key item.value) {
+							<SelectPrimitive.Item
+								{item}
+								data-slot="select-item"
+								class={cn(
+									'relative flex w-full cursor-default select-none items-center rounded-sm h-6 py-2 text-sm outline-none',
+									'data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground',
+									'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+								)}
+							>
+								<span class="flex px-2 h-8 w-full justify-between items-center">
+									<SelectPrimitive.ItemText>
+										{item.label}
+									</SelectPrimitive.ItemText>
+
+									<SelectPrimitive.ItemIndicator>
+										<Check class="h-4 w-4" />
+									</SelectPrimitive.ItemIndicator>
+								</span>
+							</SelectPrimitive.Item>
+						}
+					</SelectPrimitive.ItemGroup>
+				</SelectPrimitive.Content>
+			</SelectPrimitive.Positioner>
+		</Portal>
+	</SelectPrimitive.Root>
+}
