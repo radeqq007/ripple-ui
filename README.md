@@ -1,4 +1,5 @@
 # ripple-ui
+
 A shadcn/ui inspired component library for Ripple TS.
 
 ## Getting started
@@ -41,17 +42,20 @@ npx rippleui-cli installed
 - button
 - checkbox
 - input
+- select
 - label
 - utils
 
 ## Theming
 
 ### Base colors:
+
 - stone
 - zinc
 - slate
 
 ### Accent themes:
+
 - neutral
 - blue
 - violet
@@ -61,6 +65,7 @@ npx rippleui-cli installed
 ## components.json
 
 Generated during initialization:
+
 ```json
 {
   "aliases": {
