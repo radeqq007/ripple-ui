@@ -1,4 +1,5 @@
 {
+	"$schema": "https://raw.githubusercontent.com/radeqq007/ripple-ui/main/registry.schema.json",
 	"button": {
 		"files": ["Button.ripple"],
 		"path": "components/button",
