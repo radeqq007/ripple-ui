@@ -23,7 +23,7 @@ export async function installNpmDeps(packages: string[], cwd: string) {
 	console.log(`\nInstalling npm packages with ${pm}: ${packages.join(", ")}`);
 	try {
 		execSync(`${cmd} ${packages.join(" ")}`, { cwd, stdio: "inherit" });
-	} catch (e) {
+	} catch {
 		die(
 			`Failed to install npm packages: ${packages.join(", ")}`,
 			`Try running "${cmd} ${packages.join(" ")}" manually, then re-run this command.`,
@@ -62,7 +62,7 @@ export const installEntry = async (
 
 	try {
 		await fs.mkdir(targetPath, { recursive: true });
-	} catch (e) {
+	} catch {
 		die(
 			`Could not create directory: ${targetPath}`,
 			`Check that you have write permission here: ${path.dirname(targetPath)}`,
@@ -77,7 +77,7 @@ export const installEntry = async (
 
 			try {
 				await fs.writeFile(dest, content);
-			} catch (e) {
+			} catch {
 				die(
 					`Could not write file: ${dest}`,
 					`Check that you have write permission in: ${targetPath}`,
