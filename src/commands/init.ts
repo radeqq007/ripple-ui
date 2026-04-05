@@ -45,7 +45,7 @@ export const init = async () => {
 
 	if (!mainCssFile) {
 		console.error("✖  A valid CSS file is required to proceed.");
-    process.exit(1);
+		process.exit(1);
 	}
 
 	const detectedAlias = await detectImportAlias(cwd);
