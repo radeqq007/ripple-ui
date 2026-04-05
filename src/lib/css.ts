@@ -1,5 +1,5 @@
-import fs from "fs/promises";
-import { type AccentTheme, type Base, accentThemes, bases } from "./themes.js";
+import fs from "node:fs/promises";
+import { type AccentTheme, accentThemes, type Base, bases } from "./themes.js";
 
 export const updateCss = async (
 	cssPath: string,

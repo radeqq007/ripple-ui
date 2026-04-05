@@ -1,5 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 import prompts from "prompts";
 import { updateCss } from "../lib/css.js";
 import {
@@ -87,7 +87,7 @@ export const init = async () => {
 		utilsDir: "src/utils",
 	};
 
-	await fs.writeFile("components.json", JSON.stringify(config, null, 2) + "\n");
+	await fs.writeFile("components.json", `${JSON.stringify(config, null, 2)}\n`);
 
 	await updateCss(path.join(cwd, mainCssFile as string), base, accent);
 	console.log(`✔  Updating ${mainCssFile}`);

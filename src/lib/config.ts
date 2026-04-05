@@ -1,5 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 import type { Config } from "../types.js";
 
 const configPath = path.resolve(process.cwd(), "components.json");
@@ -11,7 +11,7 @@ export const readConfig = async (): Promise<Config | undefined> => {
 };
 
 export const writeConfig = async (config: Config) => {
-	await fs.writeFile(configPath, JSON.stringify(config, null, 2) + "\n");
+	await fs.writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
 };
 
 export const requireConfig = (config: Config) => {

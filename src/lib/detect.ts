@@ -1,5 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 export const detectPackageManager = async (cwd: string): Promise<string> => {
 	try {
@@ -22,7 +22,7 @@ export const detectTailwind = async (cwd: string) => {
 			...pkg.devDependencies,
 		};
 		return "tailwindcss" in deps;
-	} catch (e) {
+	} catch {
 		return false;
 	}
 };
