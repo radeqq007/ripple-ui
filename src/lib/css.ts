@@ -19,8 +19,11 @@ export const updateCss = async (
 			? existingContent.slice(0, markerIdx).trimEnd()
 			: existingContent.trimEnd();
 
-	const b: Base = bases[baseName]!;
-	const a: AccentTheme = accentThemes[accentName]!;
+	const b: Base | undefined = bases[baseName];
+  if (!b) throw new Error(`Missing base color: ${baseName}`)
+
+	const a: AccentTheme | undefined = accentThemes[accentName];
+  if (!a) throw new Error(`Missing accent theme: ${accentName}`)
 
 	const content = `/* Ripple UI Theme */
 @import "tw-animate-css";
