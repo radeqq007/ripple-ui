@@ -1,6 +1,6 @@
 {
 	"name": "rippleui-cli",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "shadcn/ui inspired components library for Ripple TS",
 	"type": "module",
 	"scripts": {
