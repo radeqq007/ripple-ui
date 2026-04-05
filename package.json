@@ -8,7 +8,7 @@
 		"watch": "tsc --watch",
 		"lint": "biome check .",
 		"format": "biome format . --write",
-		"check": "biome check . --all",
+		"check": "biome check .",
 		"prepublishOnly": "npm run build"
 	},
 	"bin": {
