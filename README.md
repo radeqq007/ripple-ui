@@ -1,6 +1,6 @@
 # ripple-ui
 
-A shadcn/ui inspired component library for Ripple TS.
+A [shadcn/ui](https://github.com/shadcn-ui/ui) inspired component library for [Ripple TS](https://github.com/Ripple-TS/ripple).
 
 ## Getting started
 
