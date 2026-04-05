@@ -18,7 +18,7 @@
 	},
 	"checkbox": {
 		"files": ["Checkbox.ripple"],
-		"path":"components/checkbox",
+		"path": "components/checkbox",
 		"dependencies": ["utils"],
 		"npmDependencies": ["lucide-ripple", "ark-ripple"]
 	},

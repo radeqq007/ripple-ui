@@ -1,28 +1,28 @@
-import fs from 'fs/promises';
-import { type AccentTheme, type Base, accentThemes, bases } from './themes.js';
+import fs from "fs/promises";
+import { type AccentTheme, type Base, accentThemes, bases } from "./themes.js";
 
 export const updateCss = async (
-  cssPath: string,
-  baseName: string,
-  accentName: string,
+	cssPath: string,
+	baseName: string,
+	accentName: string,
 ) => {
-  const marker = '/* Ripple UI Theme */';
+	const marker = "/* Ripple UI Theme */";
 
-  let existingContent = '';
-  try {
-    existingContent = await fs.readFile(cssPath, 'utf-8');
-  } catch {}
+	let existingContent = "";
+	try {
+		existingContent = await fs.readFile(cssPath, "utf-8");
+	} catch {}
 
-  const markerIdx = existingContent.indexOf(marker);
-  const userContent =
-    markerIdx !== -1
-      ? existingContent.slice(0, markerIdx).trimEnd()
-      : existingContent.trimEnd();
+	const markerIdx = existingContent.indexOf(marker);
+	const userContent =
+		markerIdx !== -1
+			? existingContent.slice(0, markerIdx).trimEnd()
+			: existingContent.trimEnd();
 
-  const b: Base = bases[baseName]!;
-  const a: AccentTheme = accentThemes[accentName]!;
+	const b: Base = bases[baseName]!;
+	const a: AccentTheme = accentThemes[accentName]!;
 
-  const content = `/* Ripple UI Theme */
+	const content = `/* Ripple UI Theme */
 @import "tw-animate-css";
 @import "@fontsource-variable/geist";
 
@@ -152,9 +152,9 @@ export const updateCss = async (
   }
 }`;
 
-  const newContent = userContent
-    ? `${userContent}\n\n${content}\n`
-    : `${content}\n`;
+	const newContent = userContent
+		? `${userContent}\n\n${content}\n`
+		: `${content}\n`;
 
-  await fs.writeFile(cssPath, newContent);
+	await fs.writeFile(cssPath, newContent);
 };
