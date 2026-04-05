@@ -15,7 +15,7 @@ export const add = async (component: string) => {
 
 	const registry = await fetchRegistry();
 
-	if (!registry[component]) {
+	if (!registry[component] || component.startsWith("$")) {
 		die(
 			`Component "${component}" not found in the registry.`,
 			`use 'npx rippleui-cli list' to see aviable components.`,
