@@ -29,8 +29,8 @@ export const init = async () => {
 		process.exit(1);
 	}
 
-	let mainCssFile = await detectCssFile(cwd);
-	if (mainCssFile === null) {
+	let mainCssFile: string | null = await detectCssFile(cwd);
+	if (!mainCssFile) {
 		console.log("Could not find the main CSS file.");
 		const response = await prompts([
 			{
@@ -41,6 +41,11 @@ export const init = async () => {
 			},
 		]);
 		mainCssFile = response.mainCssFile;
+	}
+
+	if (!mainCssFile) {
+		console.error("✖  A valid CSS file is required to proceed.");
+    process.exit(1);
 	}
 
 	const detectedAlias = await detectImportAlias(cwd);
@@ -80,7 +85,7 @@ export const init = async () => {
 			components: `${detectedAlias}/components`,
 			utils: `${detectedAlias}/utils`,
 		},
-		css: mainCssFile!,
+		css: mainCssFile,
 		installed: [],
 		// TODO: maybe detect those instead of hardcoding the directories
 		componentsDir: "src/components",
