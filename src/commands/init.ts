@@ -7,6 +7,7 @@ import {
 	detectImportAlias,
 	detectTailwind,
 } from "../lib/detect.js";
+import { die, formatError } from "../lib/errors.js";
 import { installNpmDeps } from "../lib/install.js";
 import { accentThemes, bases } from "../lib/themes.js";
 import type { Config } from "../types.js";
@@ -23,10 +24,10 @@ export const init = async () => {
 	if (await detectTailwind(cwd)) {
 		console.log("✔  Validating tailwindcss.");
 	} else {
-		console.error(
-			"✖  Tailwind CSS not detected. Please install it first: https://tailwindcss.com/docs/installation",
+		die(
+			"Tailwind CSS not found in your project dependencies.",
+			"Install it first: https://tailwindcss.com/docs/installation",
 		);
-		process.exit(1);
 	}
 
 	let mainCssFile: string | null = await detectCssFile(cwd);
@@ -44,8 +45,10 @@ export const init = async () => {
 	}
 
 	if (!mainCssFile) {
-		console.error("✖  A valid CSS file is required to proceed.");
-		process.exit(1);
+		die(
+			"A valid CSS file path is required to continue.",
+			"Re-run init and provide the path to your main CSS file.",
+		);
 	}
 
 	const detectedAlias = await detectImportAlias(cwd);
@@ -85,14 +88,24 @@ export const init = async () => {
 			components: `${detectedAlias}/components`,
 			utils: `${detectedAlias}/utils`,
 		},
-		css: mainCssFile,
+		css: mainCssFile!,
 		installed: [],
 		// TODO: maybe detect those instead of hardcoding the directories
 		componentsDir: "src/components",
 		utilsDir: "src/utils",
 	};
 
-	await fs.writeFile("components.json", `${JSON.stringify(config, null, 2)}\n`);
+	try {
+		await fs.writeFile(
+			"components.json",
+			`${JSON.stringify(config, null, 2)}\n`,
+		);
+	} catch (e) {
+		die(
+			`Could not write components.json: ${formatError(e)}`,
+			"Make sure you have write permission in the current directory.",
+		);
+	}
 
 	await updateCss(path.join(cwd, mainCssFile as string), base, accent);
 	console.log(`✔  Updating ${mainCssFile}`);

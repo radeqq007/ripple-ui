@@ -1,4 +1,5 @@
 import { readConfig, requireConfig, writeConfig } from "../lib/config.js";
+import { die } from "../lib/errors.js";
 import { installEntry } from "../lib/install.js";
 import { fetchRegistry } from "../lib/registry.js";
 import type { Config } from "../types.js";
@@ -15,8 +16,10 @@ export const add = async (component: string) => {
 	const registry = await fetchRegistry();
 
 	if (!registry[component]) {
-		console.error(`Component "${component}" not found.`);
-		process.exit(1);
+		die(
+			`Component "${component}" not found in the registry.`,
+			`use 'npx rippleui-cli list' to see aviable components.`,
+		);
 	}
 
 	const alreadyInstalled = new Set(config.installed);
@@ -36,7 +39,7 @@ export const add = async (component: string) => {
 	collectDeps(component);
 
 	if (toInstall.size === 0) {
-		console.log(`"${component}" is already installed.`);
+		console.log(`✔  "${component}" is already installed.`);
 		return;
 	}
 

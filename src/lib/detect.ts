@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { die, formatError } from "./errors.js";
 
 export const detectPackageManager = async (cwd: string): Promise<string> => {
 	try {
@@ -13,21 +14,32 @@ export const detectPackageManager = async (cwd: string): Promise<string> => {
 	return "npm";
 };
 
-export const detectTailwind = async (cwd: string) => {
+export const detectTailwind = async (cwd: string): Promise<boolean> => {
+	let raw: string;
+
 	try {
-		const raw = await fs.readFile(path.join(cwd, "package.json"), "utf-8");
-		const pkg = JSON.parse(raw);
+		raw = await fs.readFile(path.join(cwd, "package.json"), "utf-8");
+	} catch (e: unknown) {
+		die(`Could not read package.json: ${formatError(e)}`);
+	}
+
+	try {
+		const pkg = JSON.parse(raw!);
 		const deps = {
 			...pkg.dependencies,
 			...pkg.devDependencies,
 		};
 		return "tailwindcss" in deps;
 	} catch {
+		die(
+			"package.json contains invalid JSON.",
+			"Fix your package.json and try again.",
+		);
 		return false;
 	}
 };
 
-export const detectCssFile = async (cwd: string) => {
+export const detectCssFile = async (cwd: string): Promise<string | null> => {
 	const paths = ["src/index.css", "src/main.css", "src/styles.css"];
 
 	for (const relPath of paths) {
@@ -75,14 +87,25 @@ export const detectImportAlias = async (cwd: string): Promise<string> => {
 	// Fall back to tsconfig.json
 	try {
 		const raw = await fs.readFile(path.join(cwd, "tsconfig.json"), "utf-8");
-		const tsconfig = JSON.parse(raw);
-		const paths: Record<string, unknown> =
-			tsconfig.compilerOptions?.paths ?? {};
+		let tsconfig: { compilerOptions?: { paths?: Record<string, unknown> } };
+
+		try {
+			tsconfig = JSON.parse(raw);
+		} catch {
+			die(
+				"tsconfig.json contains invalid JSON.",
+				"Fix your tsconfig.json and try again.",
+			);
+		}
+
+		const paths = tsconfig!.compilerOptions?.paths ?? {};
 
 		for (const alias of Object.keys(paths)) {
 			return alias.replace(/\/\*$/, "");
 		}
-	} catch {}
+	} catch (e) {
+		die(`Could not read tsconfig.json: ${formatError(e)}`);
+	}
 
 	console.error("No import alias found.");
 	process.exit(1);

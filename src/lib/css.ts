@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import { die } from "./errors.js";
 import { type AccentTheme, accentThemes, type Base, bases } from "./themes.js";
 
 export const updateCss = async (
@@ -11,7 +12,12 @@ export const updateCss = async (
 	let existingContent = "";
 	try {
 		existingContent = await fs.readFile(cssPath, "utf-8");
-	} catch {}
+	} catch {
+		die(
+			`Could not read CSS file: ${cssPath}`,
+			`Check that the file exists and is readable.`,
+		);
+	}
 
 	const markerIdx = existingContent.indexOf(marker);
 	const userContent =
@@ -20,10 +26,16 @@ export const updateCss = async (
 			: existingContent.trimEnd();
 
 	const b: Base | undefined = bases[baseName];
-	if (!b) throw new Error(`Missing base color: ${baseName}`);
+	if (!b) die(`Unknown base color: ${baseName}`);
 
 	const a: AccentTheme | undefined = accentThemes[accentName];
-	if (!a) throw new Error(`Missing accent theme: ${accentName}`);
+	if (!a) die(`Unkown accent theme: ${accentName}`);
+
+	// Typescript doesn't detect the never type in die()
+	// Those checks are always false
+	// They are here just to make typescript shut up
+	if (!a) return;
+	if (!b) return;
 
 	const content = `/* Ripple UI Theme */
 @import "tw-animate-css";
@@ -159,5 +171,9 @@ export const updateCss = async (
 		? `${userContent}\n\n${content}\n`
 		: `${content}\n`;
 
-	await fs.writeFile(cssPath, newContent);
+	try {
+		await fs.writeFile(cssPath, newContent);
+	} catch (e) {
+		die(`Could not write into ${cssPath}: ${(e as Error).message}`);
+	}
 };

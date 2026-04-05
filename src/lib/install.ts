@@ -1,8 +1,9 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Config, Registry } from "../types.js";
+import type { Config, Registry, RegistryEntry } from "../types.js";
 import { detectPackageManager } from "./detect.js";
+import { die } from "./errors.js";
 import { fetchFile, fetchRegistry } from "./registry.js";
 
 export const resolveTargetDir = (
@@ -20,7 +21,14 @@ export async function installNpmDeps(packages: string[], cwd: string) {
 	const pm = await detectPackageManager(cwd);
 	const cmd = pm === "npm" ? "npm install" : `${pm} add`;
 	console.log(`\nInstalling npm packages with ${pm}: ${packages.join(", ")}`);
-	execSync(`${cmd} ${packages.join(" ")}`, { cwd, stdio: "inherit" });
+	try {
+		execSync(`${cmd} ${packages.join(" ")}`, { cwd, stdio: "inherit" });
+	} catch (e) {
+		die(
+			`Failed to install npm packages: ${packages.join(", ")}`,
+			`Try running "${cmd} ${packages.join(" ")}" manually, then re-run this command.`,
+		);
+	}
 }
 
 export const installEntry = async (
@@ -34,27 +42,47 @@ export const installEntry = async (
 
 	const registry = await fetchRegistry();
 
-	const entry = registry[name];
-	if (!entry) throw new Error(`"${name}" not found in registry`);
+	const entry: RegistryEntry | undefined = registry[name];
+	if (!entry)
+		die(
+			`"${name}" not found in registry`,
+			'Run "rippleui-cli list" to see all available components.',
+		);
 
-	for (const pkg of entry.npmDependencies ?? []) {
+	for (const pkg of entry!.npmDependencies ?? []) {
 		npmDeps.add(pkg);
 	}
 
-	for (const dep of entry.dependencies ?? []) {
+	for (const dep of entry!.dependencies ?? []) {
 		await installEntry(dep, config, installed, npmDeps);
 	}
 
-	const targetDir = resolveTargetDir(name, entry, config);
+	const targetDir = resolveTargetDir(name, entry!, config);
 	const targetPath = path.resolve(process.cwd(), targetDir);
-	await fs.mkdir(targetPath, { recursive: true });
+
+	try {
+		await fs.mkdir(targetPath, { recursive: true });
+	} catch (e) {
+		die(
+			`Could not create directory: ${targetPath}`,
+			`Check that you have write permission here: ${path.dirname(targetPath)}`,
+		);
+	}
 
 	await Promise.all(
-		entry.files.map(async (file: string) => {
-			let content = await fetchFile(`${entry.path}/${file}`);
+		entry!.files.map(async (file: string) => {
+			let content = await fetchFile(`${entry!.path}/${file}`);
 			content = updateImports(content, config);
 			const dest = path.resolve(targetPath, file);
-			await fs.writeFile(dest, content);
+
+			try {
+				await fs.writeFile(dest, content);
+			} catch (e) {
+				die(
+					`Could not write file: ${dest}`,
+					`Check that you have write permission in: ${targetPath}`,
+				);
+			}
 		}),
 	);
 
