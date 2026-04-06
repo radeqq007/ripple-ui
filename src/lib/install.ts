@@ -12,8 +12,8 @@ export const resolveTargetDir = (
 	config: Config,
 ) => {
 	// utils
-	if (entry.target) return config.utilsDir ?? entry.target;
-	return `${config.componentsDir}/${name}`;
+	if (entry.target) return config.directories.utils ?? entry.target;
+	return `${config.directories.components}/${name}`;
 };
 
 export async function installNpmDeps(packages: string[], cwd: string) {

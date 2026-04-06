@@ -88,11 +88,13 @@ export const init = async () => {
 			components: `${detectedAlias}/components`,
 			utils: `${detectedAlias}/utils`,
 		},
+		// TODO: maybe detect those instead of hardcoding the directories
+		directories: {
+			components: "src/components",
+			utils: "src/utils",
+		},
 		css: mainCssFile!,
 		installed: [],
-		// TODO: maybe detect those instead of hardcoding the directories
-		componentsDir: "src/components",
-		utilsDir: "src/utils",
 	};
 
 	try {

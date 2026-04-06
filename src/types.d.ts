@@ -12,8 +12,7 @@ export interface Registry {
 
 export interface Config {
 	aliases: { components: string; utils: string };
+	directories: { components: string; utils: string };
 	css: string;
 	installed: string[];
-	componentsDir: string;
-	utilsDir: string;
 }
