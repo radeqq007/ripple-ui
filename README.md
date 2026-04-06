@@ -1,4 +1,11 @@
 # ripple-ui
+![NPM Version](https://img.shields.io/npm/v/rippleui-cli)
+![License](https://img.shields.io/github/license/radeqq007/ripple-ui)
+![downloads](https://img.shields.io/npm/dm/rippleui-cli)
+[![CI](https://github.com/radeqq007/ripple-ui/actions/workflows/CI.yaml/badge.svg)](https://github.com/radeqq007/ripple-ui/actions/workflows/CI.yaml)
+![Last commit](https://img.shields.io/github/last-commit/radeqq007/ripple-ui)
+![GitHub stars](https://img.shields.io/github/stars/radeqq007/ripple-ui?style=social)
+
 
 A [shadcn/ui](https://github.com/shadcn-ui/ui) inspired component library for [Ripple TS](https://github.com/Ripple-TS/ripple).
 
