@@ -79,9 +79,11 @@ Generated during initialization:
     "components": "@/components",
     "utils": "@/utils"
   },
+  "directories": {
+    "components": "src/components",
+    "utils": "src/utils"
+  },
   "css": "src/index.css",
-  "installed": [],
-  "componentsDir": "src/components",
-  "utilsDir": "src/utils"
+  "installed": []
 }
 ```
