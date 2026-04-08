@@ -16,7 +16,7 @@ interface Props {
 	[key: string]: any;
 }
 
-export component Select({
+export component Select(&{
 	class: className,
 	items,
 	label,
