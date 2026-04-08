@@ -1,4 +1,4 @@
-import { Select as SelectPrimitive, createListCollection } from 'ark-ripple/Select';
+import { Select as SelectPrimitive, createListCollection } from 'ark-ripple/select';
 import { Portal } from 'ark-ripple/portal';
 import { ChevronDown, Check } from 'lucide-ripple';
 import { cn } from '@/lib/utils';
