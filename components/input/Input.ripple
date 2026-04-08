@@ -9,8 +9,8 @@ export component Input(&{ class: className, ...props }: Props) {
 		data-slot="input"
 		class={cn(
 			"h-8 w-full min-w-0 bg-input/80 dark:bg-input/30 disabled:bg-input/50 dark:disabled:bg-input/80 border border-input rounded-md focus-visible:border-ring aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 px-3 py-2 text-base md:text-sm placeholder:text-muted-foreground transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:ring-3 aria-invalid:ring-destructive/40 dark:aria-invalid:ring-destructive/40",
-			className,
+			@className,
 		)}
-		{...props}
+		{...@props}
 	/>
 }

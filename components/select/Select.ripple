@@ -23,16 +23,16 @@ export component Select(&{
 	placeholder = 'Select an option',
 	...props
 }: Props) {
-	const collection = createListCollection({ items });
+	const collection = createListCollection({ @items });
 
 	<SelectPrimitive.Root
 		positioning={{ sameWidth: true }}
 		data-slot="select"
 		{collection}
-		{...props}
+		{...@props}
 	>
-		if (label) {
-			<SelectPrimitive.Label>{label}</SelectPrimitive.Label>
+		if (@label) {
+			<SelectPrimitive.Label>{@label}</SelectPrimitive.Label>
 		}
 		<SelectPrimitive.Control>
 			<SelectPrimitive.Trigger
@@ -44,10 +44,10 @@ export component Select(&{
 					'focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:border-ring',
 					'disabled:cursor-not-allowed disabled:opacity-50',
 					'data-[invalid]:border-destructive data-[invalid]:ring-destructive/40',
-					className,
+					@className,
 				)}
 			>
-				<SelectPrimitive.ValueText {placeholder} />
+				<SelectPrimitive.ValueText {@placeholder} />
 				<SelectPrimitive.Indicator class="shrink-0 opacity-50">
 					<ChevronDown class="h-4 w-4" />
 				</SelectPrimitive.Indicator>

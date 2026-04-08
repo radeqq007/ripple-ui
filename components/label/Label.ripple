@@ -11,10 +11,10 @@ export component Label(&{ children, class: className, ...props }: Props) {
     data-slot="label"
     class={cn(
         "cn-label flex items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed",
-        className
+        @className
     )}
-    {...props}
+    {...@props}
   >
-		<children />
+		<@children />
   </label>
 }
