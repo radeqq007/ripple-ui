@@ -39,7 +39,7 @@ interface Props extends VariantProps<typeof buttonVariants> {
 	[key: string]: any;
 }
 
-export component Button({ children, class: className, variant, size, ...props}: Props) {
+export component Button(&{ children, class: className, variant, size, ...props}: Props) {
 	<button
 		data-slot="button"
 		class={cn(

@@ -4,7 +4,7 @@ interface Props {
 	[key: string]: any;
 }
 
-export component Input({ class: className, ...props }: Props) {
+export component Input(&{ class: className, ...props }: Props) {
 	<input
 		data-slot="input"
 		class={cn(

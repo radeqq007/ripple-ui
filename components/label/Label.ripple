@@ -6,7 +6,7 @@ interface Props {
 	[key: string]: any;
 }
 
-export component Label({ children, class: className, ...props }: Props) {
+export component Label(&{ children, class: className, ...props }: Props) {
   <label
     data-slot="label"
     class={cn(

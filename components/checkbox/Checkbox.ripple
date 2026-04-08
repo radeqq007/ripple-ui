@@ -7,7 +7,7 @@ interface Props {
 	[key: string]: any;
 }
 
-export component Checkbox({ class: className, ...props }: Props ) {
+export component Checkbox(&{ class: className, ...props }: Props ) {
   <CheckboxPrimitive.Root
     {...props}
   >
