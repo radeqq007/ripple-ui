@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import type { Component } from 'ripple';
+import type { Children } from 'ripple';
 
 const buttonVariants = cva(
 	'group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-49 [&_svg]:pointer-events-none [&_svg]:shrink-0',
@@ -33,7 +33,7 @@ const buttonVariants = cva(
 );
 
 interface Props extends VariantProps<typeof buttonVariants> {
-	children: Component[];
+	children: Children;
 	variant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'destructive' | 'link';
 	size?: 'default' | 'xs' | 'sm' | 'lg' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg';
 	[key: string]: any;

@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
-import type { Component } from 'ripple';
+import type { Children } from 'ripple';
 
 interface Props {
-	children: Component[];
+	children: Children;
 	[key: string]: any;
 }
 
