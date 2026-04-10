@@ -26,7 +26,7 @@ process.on("uncaughtException", (err: Error) => {
 const program = new Command();
 
 program
-	.command("add <component>")
+	.command("add <components...>")
 	.description("Add a Ripple UI component")
 	.action(add);
 

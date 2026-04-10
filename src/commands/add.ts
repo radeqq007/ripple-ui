@@ -4,7 +4,7 @@ import { installEntry } from "../lib/install.js";
 import { fetchRegistry } from "../lib/registry.js";
 import type { Config } from "../types.js";
 
-export const add = async (component: string) => {
+export const add = async (components: string[]) => {
 	const config: Config | undefined = await readConfig();
 	if (!config) {
 		console.error("Error reading the config.");
@@ -15,11 +15,13 @@ export const add = async (component: string) => {
 
 	const registry = await fetchRegistry();
 
-	if (!registry[component] || component.startsWith("$")) {
-		die(
-			`Component "${component}" not found in the registry.`,
-			`use 'npx rippleui-cli list' to see aviable components.`,
-		);
+	for (const component of components) {
+		if (!registry[component] || component.startsWith("$")) {
+			die(
+				`Component "${component}" not found in the registry.`,
+				`use 'npx rippleui-cli list' to see aviable components.`,
+			);
+		}
 	}
 
 	const alreadyInstalled = new Set(config.installed);
@@ -36,18 +38,22 @@ export const add = async (component: string) => {
 		}
 	}
 
-	collectDeps(component);
+	for (const component of components) {
+		collectDeps(component);
+	}
 
 	if (toInstall.size === 0) {
-		console.log(`✔  "${component}" is already installed.`);
+		console.log(`✔  ${components.join(", ")} already installed.`);
 		return;
 	}
 
 	console.log(`Installing: ${[...toInstall].join(", ")}\n`);
 
 	const npmDeps = new Set<string>();
-	await installEntry(component, config, alreadyInstalled, npmDeps);
-
+	for (const component of components) {	
+		await installEntry(component, config, alreadyInstalled, npmDeps);
+	}
+		
 	config.installed = [...new Set([...config.installed, ...toInstall])];
 	await writeConfig(config);
 
