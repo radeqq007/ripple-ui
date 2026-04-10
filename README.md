@@ -27,7 +27,7 @@ This will:
 ### 2. Add components
 
 ```sh
-npx rippleui-cli add <component name>
+npx rippleui-cli add <components...>
 ```
 
 Components and their dependencies are copied into your src/components/ directory.
