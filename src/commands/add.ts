@@ -1,4 +1,4 @@
-import { readConfig, requireConfig, writeConfig } from "../lib/config.js";
+import { readConfig, writeConfig } from "../lib/config.js";
 import { die } from "../lib/errors.js";
 import { installEntry } from "../lib/install.js";
 import { fetchRegistry } from "../lib/registry.js";
@@ -6,12 +6,6 @@ import type { Config } from "../types.js";
 
 export const add = async (components: string[]) => {
 	const config: Config | undefined = await readConfig();
-	if (!config) {
-		console.error("Error reading the config.");
-		process.exit(1);
-	}
-
-	requireConfig(config);
 
 	const registry = await fetchRegistry();
 
