@@ -22,7 +22,7 @@ export const readConfig = async (): Promise<Config> | never => {
 		);
 
 		// die() already exits but typescript doesn't detect the never type for whatever reason
-		process.exit(1)
+		process.exit(1);
 	}
 };
 

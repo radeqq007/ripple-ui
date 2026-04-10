@@ -44,10 +44,10 @@ export const add = async (components: string[]) => {
 	console.log(`Installing: ${[...toInstall].join(", ")}\n`);
 
 	const npmDeps = new Set<string>();
-	for (const component of components) {	
+	for (const component of components) {
 		await installEntry(component, config, alreadyInstalled, npmDeps);
 	}
-		
+
 	config.installed = [...new Set([...config.installed, ...toInstall])];
 	await writeConfig(config);
 

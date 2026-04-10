@@ -44,7 +44,7 @@ export const installEntry = async (
 	if (!registry) {
 		registry = await fetchRegistry();
 	}
-		
+
 	const entry: RegistryEntry | undefined = registry[name];
 	if (!entry)
 		die(
