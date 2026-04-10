@@ -36,12 +36,15 @@ export const installEntry = async (
 	config: Config,
 	installed = new Set(),
 	npmDeps = new Set<string>(),
+	registry?: Registry,
 ) => {
 	if (installed.has(name)) return;
 	installed.add(name);
 
-	const registry = await fetchRegistry();
-
+	if (!registry) {
+		registry = await fetchRegistry();
+	}
+		
 	const entry: RegistryEntry | undefined = registry[name];
 	if (!entry)
 		die(
@@ -54,7 +57,7 @@ export const installEntry = async (
 	}
 
 	for (const dep of entry!.dependencies ?? []) {
-		await installEntry(dep, config, installed, npmDeps);
+		await installEntry(dep, config, installed, npmDeps, registry);
 	}
 
 	const targetDir = resolveTargetDir(name, entry!, config);
