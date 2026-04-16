@@ -41,7 +41,7 @@
 		"prompts": "^2.4.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.10",
+		"@biomejs/biome": "2.4.12",
 		"@types/node": "^25.5.0",
 		"@types/prompts": "^2.4.9",
 		"ark-ripple": "^0.0.4",
