@@ -29,16 +29,16 @@ importers:
         version: 2.4.9
       ark-ripple:
         specifier: ^0.0.4
-        version: 0.0.4(@internationalized/date@3.12.0)(ripple@0.3.10(@typescript-eslint/types@8.58.0))
+        version: 0.0.4(@internationalized/date@3.12.0)(ripple@0.3.28(@typescript-eslint/types@8.58.0))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       lucide-ripple:
         specifier: ^0.0.7
-        version: 0.0.7(ripple@0.3.10(@typescript-eslint/types@8.58.0))
+        version: 0.0.7(ripple@0.3.28(@typescript-eslint/types@8.58.0))
       ripple:
         specifier: ^0.3.6
-        version: 0.3.10(@typescript-eslint/types@8.58.0)
+        version: 0.3.28(@typescript-eslint/types@8.58.0)
       tailwind-merge:
         specifier: ^3.0.0
         version: 3.5.0
@@ -289,6 +289,12 @@ packages:
 
   '@swc/helpers@0.5.21':
     resolution: {integrity: sha512-jI/VAmtdjB/RnI8GTnokyX7Ug8c+g+ffD6QRLa6XQewtnGyukKkKSk3wLTM3b5cjt1jNh9x0jfVlagdN2gDKQg==}
+
+  '@tsrx/core@0.0.8':
+    resolution: {integrity: sha512-QDgfWmjiDpFV8YJU2LQracvO9bTWQcLrvhPf5/i5NrpksO+XOXt+uZUY+l4GUce8lyu2Q1Llqz65EMzAzXLbVA==}
+
+  '@tsrx/ripple@0.0.10':
+    resolution: {integrity: sha512-c09xISiZYIZpukPqM+XpMR2gooB6Sdi8GDS+HBHDYSZ3gYvD2WupD2DclsBCWht/bsFbMS+g+nHRQMCbvesz7g==}
 
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
@@ -599,9 +605,6 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  muggle-string@0.4.1:
-    resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
-
   perfect-freehand@1.2.3:
     resolution: {integrity: sha512-bHZSfqDHGNlPpgH2yxXgPHlQSPpEbo+qg7li0M78J9vNAi2yjwLeA4x79BEQhX44lEWpCLSFCeRZwpw0niiXPA==}
 
@@ -618,8 +621,8 @@ packages:
   resolve-pkg-maps@1.0.0:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
 
-  ripple@0.3.10:
-    resolution: {integrity: sha512-WNhP7IhQdAVBzsm5D/Pk/1nJrlizduJqgrse7p8Ft4ScUjBnF0R9JpBKUQnhjWhsXMsBnHbvhcPpBRc+vIIN4w==}
+  ripple@0.3.28:
+    resolution: {integrity: sha512-MGas/R5iEMtvgIK2hm9jJT4UIyLWrJLkfUTSDJ97JT4XXH4En8JPfXwH7N7LrdDMoUJQzIg4Npy3VoJOMLoV1A==}
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
@@ -801,6 +804,29 @@ snapshots:
   '@swc/helpers@0.5.21':
     dependencies:
       tslib: 2.8.1
+
+  '@tsrx/core@0.0.8(@typescript-eslint/types@8.58.0)':
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.5
+      '@sveltejs/acorn-typescript': 1.0.9(acorn@8.16.0)
+      '@types/estree': 1.0.8
+      '@types/estree-jsx': 1.0.5
+      acorn: 8.16.0
+      esrap: 2.2.5(@typescript-eslint/types@8.58.0)
+      is-reference: 3.0.3
+      magic-string: 0.30.21
+      zimmerframe: 1.1.4
+    transitivePeerDependencies:
+      - '@typescript-eslint/types'
+
+  '@tsrx/ripple@0.0.10(@typescript-eslint/types@8.58.0)':
+    dependencies:
+      '@tsrx/core': 0.0.8(@typescript-eslint/types@8.58.0)
+      esrap: 2.2.5(@typescript-eslint/types@8.58.0)
+      is-reference: 3.0.3
+      zimmerframe: 1.1.4
+    transitivePeerDependencies:
+      - '@typescript-eslint/types'
 
   '@types/estree-jsx@1.0.5':
     dependencies:
@@ -1356,7 +1382,7 @@ snapshots:
 
   acorn@8.16.0: {}
 
-  ark-ripple@0.0.4(@internationalized/date@3.12.0)(ripple@0.3.10(@typescript-eslint/types@8.58.0)):
+  ark-ripple@0.0.4(@internationalized/date@3.12.0)(ripple@0.3.28(@typescript-eslint/types@8.58.0)):
     dependencies:
       '@zag-js/accordion': 1.35.2
       '@zag-js/anatomy': 1.35.2
@@ -1418,8 +1444,8 @@ snapshots:
       '@zag-js/types': 1.35.2
       '@zag-js/utils': 1.35.2
       clsx: 2.1.1
-      ripple: 0.3.10(@typescript-eslint/types@8.58.0)
-      zag-ripple: 0.1.4(ripple@0.3.10(@typescript-eslint/types@8.58.0))
+      ripple: 0.3.28(@typescript-eslint/types@8.58.0)
+      zag-ripple: 0.1.4(ripple@0.3.28(@typescript-eslint/types@8.58.0))
     transitivePeerDependencies:
       - '@internationalized/date'
 
@@ -1495,15 +1521,13 @@ snapshots:
 
   kleur@3.0.3: {}
 
-  lucide-ripple@0.0.7(ripple@0.3.10(@typescript-eslint/types@8.58.0)):
+  lucide-ripple@0.0.7(ripple@0.3.28(@typescript-eslint/types@8.58.0)):
     dependencies:
-      ripple: 0.3.10(@typescript-eslint/types@8.58.0)
+      ripple: 0.3.28(@typescript-eslint/types@8.58.0)
 
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  muggle-string@0.4.1: {}
 
   perfect-freehand@1.2.3: {}
 
@@ -1520,21 +1544,14 @@ snapshots:
 
   resolve-pkg-maps@1.0.0: {}
 
-  ripple@0.3.10(@typescript-eslint/types@8.58.0):
+  ripple@0.3.28(@typescript-eslint/types@8.58.0):
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.5
-      '@sveltejs/acorn-typescript': 1.0.9(acorn@8.16.0)
+      '@tsrx/ripple': 0.0.10(@typescript-eslint/types@8.58.0)
       '@types/estree': 1.0.8
       '@types/estree-jsx': 1.0.5
-      acorn: 8.16.0
       clsx: 2.1.1
       devalue: 5.7.1
       esm-env: 1.2.2
-      esrap: 2.2.5(@typescript-eslint/types@8.58.0)
-      is-reference: 3.0.3
-      magic-string: 0.30.21
-      muggle-string: 0.4.1
-      zimmerframe: 1.1.4
     transitivePeerDependencies:
       - '@typescript-eslint/types'
 
@@ -1559,11 +1576,11 @@ snapshots:
 
   uqr@0.1.2: {}
 
-  zag-ripple@0.1.4(ripple@0.3.10(@typescript-eslint/types@8.58.0)):
+  zag-ripple@0.1.4(ripple@0.3.28(@typescript-eslint/types@8.58.0)):
     dependencies:
       '@zag-js/core': 1.35.2
       '@zag-js/types': 1.35.2
       '@zag-js/utils': 1.35.2
-      ripple: 0.3.10(@typescript-eslint/types@8.58.0)
+      ripple: 0.3.28(@typescript-eslint/types@8.58.0)
 
   zimmerframe@1.1.4: {}
