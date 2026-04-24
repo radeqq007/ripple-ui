@@ -46,7 +46,7 @@ export component Button(&{ children, class: className, variant, size, ...props}:
 			buttonVariants(
 				{ variant, size },
 			),
-			@className
+			className
 		)}
 	  {...props}
 	>
