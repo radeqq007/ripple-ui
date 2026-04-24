@@ -50,7 +50,7 @@ export component Button(&{ children, class: className, variant, size, ...props}:
 		)}
 	  {...props}
 	>
-		<children />
+		{children}
 	</button>
 }
 

@@ -15,6 +15,6 @@ export component Label(&{ children, class: className, ...props }: Props) {
     )}
     {...props}
   >
-		<children />
+    {children}
   </label>
 }
