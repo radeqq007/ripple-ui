@@ -1,29 +1,29 @@
 {
 	"$schema": "https://raw.githubusercontent.com/radeqq007/ripple-ui/main/registry.schema.json",
 	"button": {
-		"files": ["Button.ripple"],
+		"files": ["Button.tsrx"],
 		"path": "components/button",
 		"dependencies": ["utils"],
 		"npmDependencies": ["class-variance-authority"]
 	},
 	"label": {
-		"files": ["Label.ripple"],
+		"files": ["Label.tsrx"],
 		"path": "components/label",
 		"dependencies": ["utils"]
 	},
 	"input": {
-		"files": ["Input.ripple"],
+		"files": ["Input.tsrx"],
 		"path": "components/input",
 		"dependencies": ["utils"]
 	},
 	"checkbox": {
-		"files": ["Checkbox.ripple"],
+		"files": ["Checkbox.tsrx"],
 		"path": "components/checkbox",
 		"dependencies": ["utils"],
 		"npmDependencies": ["lucide-ripple", "ark-ripple"]
 	},
 	"select": {
-		"files": ["Select.ripple"],
+		"files": ["Select.tsrx"],
 		"path": "components/select",
 		"dependencies": ["utils"],
 		"npmDependencies": ["lucide-ripple", "ark-ripple"]
