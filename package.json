@@ -42,7 +42,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.0",
-		"@types/node": "^25.5.0",
+		"@types/node": "^26.1.0",
 		"@types/prompts": "^2.4.9",
 		"ark-ripple": "^0.0.4",
 		"clsx": "^2.1.1",
