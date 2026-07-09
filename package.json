@@ -50,7 +50,7 @@
 		"ripple": "^0.3.6",
 		"tailwind-merge": "^3.0.0",
 		"tsx": "^4.21.0",
-		"typescript": "^6.0.2"
+		"typescript": "^7.0.2"
 	},
 	"peerDependencies": {
 		"clsx": ">=2",
